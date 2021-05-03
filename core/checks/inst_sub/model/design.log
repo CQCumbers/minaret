@@ -1,0 +1,608 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Wolf <claire@symbioticeda.com>          |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.9+4008 (git sha1 396ad17e, clang 12.0.0 -fPIC -Os)
+
+
+-- Executing script file `../model/design.ys' --
+
+1. Executing Verilog-2005 frontend: inst_sub.sv
+Parsing SystemVerilog input from `inst_sub.sv' to AST representation.
+Generating RTLIL representation for module `\mfi_testbench'.
+Generating RTLIL representation for module `\mfi_inst_check'.
+Generating RTLIL representation for module `\mfi_inst_sub'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: /Users/alexanderzhang/Documents/classes/minaret/core/../core/wrapper.sv
+Parsing SystemVerilog input from `/Users/alexanderzhang/Documents/classes/minaret/core/../core/wrapper.sv' to AST representation.
+Generating RTLIL representation for module `\mfi_wrapper'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: /Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v
+Parsing Verilog input from `/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v' to AST representation.
+Generating RTLIL representation for module `\minaret'.
+Successfully finished Verilog frontend.
+
+4. Executing PREP pass.
+
+4.1. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1.1. Analyzing design hierarchy..
+Top module:  \mfi_testbench
+Used module:     \mfi_wrapper
+Used module:         \minaret
+Used module:     \mfi_inst_check
+Used module:         \mfi_inst_sub
+
+4.1.2. Analyzing design hierarchy..
+Top module:  \mfi_testbench
+Used module:     \mfi_wrapper
+Used module:         \minaret
+Used module:     \mfi_inst_check
+Used module:         \mfi_inst_sub
+Removed 0 unused modules.
+Module mfi_inst_check directly or indirectly contains formal properties -> setting "keep" attribute.
+Module mfi_testbench directly or indirectly contains formal properties -> setting "keep" attribute.
+
+4.2. Executing PROC pass (convert processes to netlists).
+
+4.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+4.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:137$205 in module minaret.
+Marked 3 switch rules as full_case in process $proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:124$188 in module minaret.
+Removed 2 dead cases from process $proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183 in module minaret.
+Marked 1 switch rules as full_case in process $proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183 in module minaret.
+Marked 6 switch rules as full_case in process $proc$mfi_inst_check.sv:60$48 in module mfi_inst_check.
+Removed a total of 2 dead cases.
+
+4.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 40 assignments to connections.
+
+4.2.4. Executing PROC_INIT pass (extract init attributes).
+Found init rule in `\mfi_testbench.$proc$mfi_testbench.sv:10$13'.
+  Set init value: \cycle_reg = 8'00000000
+
+4.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+4.2.6. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+Creating decoders for process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:137$205'.
+     1/1: $1\alu_out[31:0]
+Creating decoders for process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:124$188'.
+     1/5: $1$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$199
+     2/5: $1$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_DATA[31:0]$198
+     3/5: $1$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$196
+     4/5: $1$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$195
+     5/5: $1$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_ADDR[3:0]$194
+Creating decoders for process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+     1/1: { $1\pc_src[0:0] $1\A_src[0:0] $1\B_src[1:0] $1\alu_op[2:0] $1\wb_src[0:0] $1\wb[0:0] $1\ld_ty[0:0] $1\st_ty[0:0] $1\br[0:0] }
+Creating decoders for process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+     1/66: $2\i[31:0]
+     2/66: $1\i[31:0]
+     3/66: $0$formal$mfi_inst_check.sv:61$14_EN[0:0]$50
+     4/66: $0$formal$mfi_inst_check.sv:61$14_CHECK[0:0]$49
+     5/66: $0$formal$mfi_inst_check.sv:62$15_EN[0:0]$52
+     6/66: $0$formal$mfi_inst_check.sv:62$15_CHECK[0:0]$51
+     7/66: $0$formal$mfi_inst_check.sv:63$16_EN[0:0]$54
+     8/66: $0$formal$mfi_inst_check.sv:63$16_CHECK[0:0]$53
+     9/66: $0$formal$mfi_inst_check.sv:64$17_EN[0:0]$56
+    10/66: $0$formal$mfi_inst_check.sv:64$17_CHECK[0:0]$55
+    11/66: $0$formal$mfi_inst_check.sv:67$18_EN[0:0]$58
+    12/66: $0$formal$mfi_inst_check.sv:67$18_CHECK[0:0]$57
+    13/66: $0$formal$mfi_inst_check.sv:70$19_EN[0:0]$60
+    14/66: $0$formal$mfi_inst_check.sv:70$19_CHECK[0:0]$59
+    15/66: $0$formal$mfi_inst_check.sv:71$20_EN[0:0]$62
+    16/66: $0$formal$mfi_inst_check.sv:71$20_CHECK[0:0]$61
+    17/66: $0$formal$mfi_inst_check.sv:74$21_EN[0:0]$64
+    18/66: $0$formal$mfi_inst_check.sv:74$21_CHECK[0:0]$63
+    19/66: $0$formal$mfi_inst_check.sv:75$22_EN[0:0]$66
+    20/66: $0$formal$mfi_inst_check.sv:75$22_CHECK[0:0]$65
+    21/66: $0$formal$mfi_inst_check.sv:76$23_EN[0:0]$68
+    22/66: $0$formal$mfi_inst_check.sv:76$23_CHECK[0:0]$67
+    23/66: $0$formal$mfi_inst_check.sv:79$24_EN[0:0]$70
+    24/66: $0$formal$mfi_inst_check.sv:79$24_CHECK[0:0]$69
+    25/66: $0$formal$mfi_inst_check.sv:84$25_EN[0:0]$72
+    26/66: $0$formal$mfi_inst_check.sv:84$25_CHECK[0:0]$71
+    27/66: $0$formal$mfi_inst_check.sv:85$26_EN[0:0]$74
+    28/66: $0$formal$mfi_inst_check.sv:85$26_CHECK[0:0]$73
+    29/66: $0$formal$mfi_inst_check.sv:87$27_EN[0:0]$76
+    30/66: $0$formal$mfi_inst_check.sv:87$27_CHECK[0:0]$75
+    31/66: $0$formal$mfi_inst_check.sv:88$28_EN[0:0]$78
+    32/66: $0$formal$mfi_inst_check.sv:88$28_CHECK[0:0]$77
+    33/66: $0$formal$mfi_inst_check.sv:91$29_EN[0:0]$80
+    34/66: $0$formal$mfi_inst_check.sv:91$29_CHECK[0:0]$79
+    35/66: $0$formal$mfi_inst_check.sv:84$30_EN[0:0]$82
+    36/66: $0$formal$mfi_inst_check.sv:84$30_CHECK[0:0]$81
+    37/66: $0$formal$mfi_inst_check.sv:85$31_EN[0:0]$84
+    38/66: $0$formal$mfi_inst_check.sv:85$31_CHECK[0:0]$83
+    39/66: $0$formal$mfi_inst_check.sv:87$32_EN[0:0]$86
+    40/66: $0$formal$mfi_inst_check.sv:87$32_CHECK[0:0]$85
+    41/66: $0$formal$mfi_inst_check.sv:88$33_EN[0:0]$88
+    42/66: $0$formal$mfi_inst_check.sv:88$33_CHECK[0:0]$87
+    43/66: $0$formal$mfi_inst_check.sv:91$34_EN[0:0]$90
+    44/66: $0$formal$mfi_inst_check.sv:91$34_CHECK[0:0]$89
+    45/66: $0$formal$mfi_inst_check.sv:84$35_EN[0:0]$92
+    46/66: $0$formal$mfi_inst_check.sv:84$35_CHECK[0:0]$91
+    47/66: $0$formal$mfi_inst_check.sv:85$36_EN[0:0]$94
+    48/66: $0$formal$mfi_inst_check.sv:85$36_CHECK[0:0]$93
+    49/66: $0$formal$mfi_inst_check.sv:87$37_EN[0:0]$96
+    50/66: $0$formal$mfi_inst_check.sv:87$37_CHECK[0:0]$95
+    51/66: $0$formal$mfi_inst_check.sv:88$38_EN[0:0]$98
+    52/66: $0$formal$mfi_inst_check.sv:88$38_CHECK[0:0]$97
+    53/66: $0$formal$mfi_inst_check.sv:91$39_EN[0:0]$100
+    54/66: $0$formal$mfi_inst_check.sv:91$39_CHECK[0:0]$99
+    55/66: $0$formal$mfi_inst_check.sv:84$40_EN[0:0]$102
+    56/66: $0$formal$mfi_inst_check.sv:84$40_CHECK[0:0]$101
+    57/66: $0$formal$mfi_inst_check.sv:85$41_EN[0:0]$104
+    58/66: $0$formal$mfi_inst_check.sv:85$41_CHECK[0:0]$103
+    59/66: $0$formal$mfi_inst_check.sv:87$42_EN[0:0]$106
+    60/66: $0$formal$mfi_inst_check.sv:87$42_CHECK[0:0]$105
+    61/66: $0$formal$mfi_inst_check.sv:88$43_EN[0:0]$108
+    62/66: $0$formal$mfi_inst_check.sv:88$43_CHECK[0:0]$107
+    63/66: $0$formal$mfi_inst_check.sv:91$44_EN[0:0]$110
+    64/66: $0$formal$mfi_inst_check.sv:91$44_CHECK[0:0]$109
+    65/66: $0$formal$mfi_inst_check.sv:95$45_EN[0:0]$112
+    66/66: $0$formal$mfi_inst_check.sv:95$45_CHECK[0:0]$111
+Creating decoders for process `\mfi_testbench.$proc$mfi_testbench.sv:10$13'.
+Creating decoders for process `\mfi_testbench.$proc$mfi_testbench.sv:13$7'.
+
+4.2.7. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\minaret.\alu_sum' from process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:137$205'.
+Latch inferred for signal `\minaret.\alu_out' from process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:137$205': $auto$proc_dlatch.cc:427:proc_dlatch$732
+No latch inferred for signal `\minaret.\pc_src' from process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+No latch inferred for signal `\minaret.\A_src' from process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+No latch inferred for signal `\minaret.\B_src' from process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+No latch inferred for signal `\minaret.\alu_op' from process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+No latch inferred for signal `\minaret.\wb_src' from process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+No latch inferred for signal `\minaret.\wb' from process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+No latch inferred for signal `\minaret.\ld_ty' from process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+No latch inferred for signal `\minaret.\st_ty' from process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+No latch inferred for signal `\minaret.\br' from process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:61$14_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:61$14_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:62$15_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:62$15_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:63$16_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:63$16_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:64$17_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:64$17_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:67$18_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:67$18_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:70$19_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:70$19_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:71$20_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:71$20_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:74$21_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:74$21_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:75$22_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:75$22_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:76$23_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:76$23_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:79$24_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:79$24_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:84$25_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:84$25_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:85$26_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:85$26_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:87$27_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:87$27_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:88$28_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:88$28_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:91$29_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:91$29_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:84$30_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:84$30_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:85$31_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:85$31_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:87$32_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:87$32_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:88$33_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:88$33_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:91$34_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:91$34_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:84$35_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:84$35_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:85$36_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:85$36_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:87$37_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:87$37_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:88$38_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:88$38_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:91$39_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:91$39_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:84$40_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:84$40_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:85$41_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:85$41_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:87$42_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:87$42_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:88$43_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:88$43_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:91$44_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:91$44_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:95$45_CHECK' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+No latch inferred for signal `\mfi_inst_check.$formal$mfi_inst_check.sv:95$45_EN' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+Latch inferred for signal `\mfi_inst_check.\i' from process `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48': $auto$proc_dlatch.cc:427:proc_dlatch$767
+
+4.2.8. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\minaret.\mfi_valid' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$796' with positive edge clock.
+Creating register for signal `\minaret.\mfi_order' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$797' with positive edge clock.
+Creating register for signal `\minaret.\mfi_inst' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$798' with positive edge clock.
+Creating register for signal `\minaret.\mfi_trap' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$799' with positive edge clock.
+Creating register for signal `\minaret.\mfi_halt' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$800' with positive edge clock.
+Creating register for signal `\minaret.\mfi_intr' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$801' with positive edge clock.
+Creating register for signal `\minaret.\mfi_src1_addr' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$802' with positive edge clock.
+Creating register for signal `\minaret.\mfi_src2_addr' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$803' with positive edge clock.
+Creating register for signal `\minaret.\mfi_src1_rdata' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$804' with positive edge clock.
+Creating register for signal `\minaret.\mfi_src2_rdata' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$805' with positive edge clock.
+Creating register for signal `\minaret.\mfi_dest_addr' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$806' with positive edge clock.
+Creating register for signal `\minaret.\mfi_dest_wdata' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$807' with positive edge clock.
+Creating register for signal `\minaret.\mfi_pc_rdata' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$808' with positive edge clock.
+Creating register for signal `\minaret.\mfi_pc_wdata' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$809' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mem_addr' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$810' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mem_rmask' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$811' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mem_wmask' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$812' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mem_rdata' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$813' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mem_wdata' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$814' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mode' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$815' with positive edge clock.
+Creating register for signal `\minaret.\mfi_ixl' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+  created $dff cell `$procdff$816' with positive edge clock.
+Creating register for signal `\minaret.$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_ADDR' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:124$188'.
+  created $dff cell `$procdff$817' with positive edge clock.
+Creating register for signal `\minaret.$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:124$188'.
+  created $dff cell `$procdff$818' with positive edge clock.
+Creating register for signal `\minaret.$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:124$188'.
+  created $dff cell `$procdff$819' with positive edge clock.
+Creating register for signal `\minaret.$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_DATA' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:124$188'.
+  created $dff cell `$procdff$820' with positive edge clock.
+Creating register for signal `\minaret.$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN' using process `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:124$188'.
+  created $dff cell `$procdff$821' with positive edge clock.
+Creating register for signal `\mfi_testbench.\cycle_reg' using process `\mfi_testbench.$proc$mfi_testbench.sv:13$7'.
+  created $dff cell `$procdff$822' with positive edge clock.
+
+4.2.9. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+4.2.10. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:156$212'.
+Found and cleaned up 1 empty switch in `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:137$205'.
+Removing empty process `minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:137$205'.
+Found and cleaned up 3 empty switches in `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:124$188'.
+Removing empty process `minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:124$188'.
+Found and cleaned up 1 empty switch in `\minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+Removing empty process `minaret.$proc$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:102$183'.
+Found and cleaned up 16 empty switches in `\mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+Removing empty process `mfi_inst_check.$proc$mfi_inst_check.sv:60$48'.
+Removing empty process `mfi_testbench.$proc$mfi_testbench.sv:10$13'.
+Removing empty process `mfi_testbench.$proc$mfi_testbench.sv:13$7'.
+Cleaned up 21 empty switches.
+
+4.3. Executing FLATTEN pass (flatten design).
+Deleting now unused module minaret.
+Deleting now unused module mfi_wrapper.
+Deleting now unused module mfi_inst_sub.
+Deleting now unused module mfi_inst_check.
+<suppressed ~4 debug messages>
+
+4.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_testbench.
+<suppressed ~167 debug messages>
+
+4.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_testbench..
+Removed 18 unused cells and 541 unused wires.
+<suppressed ~24 debug messages>
+
+4.6. Executing CHECK pass (checking for obvious problems).
+Checking module mfi_testbench...
+Found and reported 0 problems.
+
+4.7. Executing OPT pass (performing simple optimizations).
+
+4.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_testbench.
+
+4.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_testbench'.
+<suppressed ~45 debug messages>
+Removed a total of 19 cells.
+
+4.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \mfi_testbench..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port B of cell $flatten\checker_inst.$procmux$391: \wrapper.dut.mfi_mem_rmask [0] -> 1'1
+      Replacing known input bits on port B of cell $flatten\checker_inst.$procmux$487: \wrapper.dut.mfi_mem_rmask [1] -> 1'1
+      Replacing known input bits on port B of cell $flatten\checker_inst.$procmux$583: \wrapper.dut.mfi_mem_rmask [2] -> 1'1
+      Replacing known input bits on port B of cell $flatten\checker_inst.$procmux$679: \wrapper.dut.mfi_mem_rmask [3] -> 1'1
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~52 debug messages>
+
+4.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \mfi_testbench.
+    New ctrl vector for $pmux cell $flatten\wrapper.\dut.$procmux$220: { $flatten\wrapper.\dut.$procmux$223_CMP $flatten\wrapper.\dut.$procmux$222_CMP $flatten\wrapper.\dut.$procmux$221_CMP }
+    Consolidated identical input bits for $mux cell $flatten\wrapper.\dut.$procmux$227:
+      Old ports: A=32'11111111111111111111111111111111, B=0, Y=$flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193
+      New ports: A=1'1, B=1'0, Y=$flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0]
+      New connections: $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [31:1] = { $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:128$182_EN[31:0]$193 [0] }
+    Consolidated identical input bits for $mux cell $flatten\wrapper.\dut.$procmux$233:
+      Old ports: A=0, B=32'11111111111111111111111111111111, Y=$flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191
+      New ports: A=1'0, B=1'1, Y=$flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0]
+      New connections: $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [31:1] = { $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:127$181_EN[31:0]$191 [0] }
+    Consolidated identical input bits for $mux cell $flatten\wrapper.\dut.$procmux$236:
+      Old ports: A=0, B=32'11111111111111111111111111111111, Y=$flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190
+      New ports: A=1'0, B=1'1, Y=$flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0]
+      New connections: $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [31:1] = { $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] $flatten\wrapper.\dut.$0$memwr$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:125$180_EN[31:0]$190 [0] }
+  Optimizing cells in module \mfi_testbench.
+Performed a total of 4 changes.
+
+4.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_testbench'.
+<suppressed ~51 debug messages>
+Removed a total of 17 cells.
+
+4.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_testbench..
+Removed 0 unused cells and 20 unused wires.
+<suppressed ~1 debug messages>
+
+4.7.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_testbench.
+<suppressed ~4 debug messages>
+
+4.7.8. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.7.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \mfi_testbench..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~39 debug messages>
+
+4.7.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \mfi_testbench.
+Performed a total of 0 changes.
+
+4.7.11. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_testbench'.
+<suppressed ~32 debug messages>
+Removed a total of 12 cells.
+
+4.7.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_testbench..
+Removed 0 unused cells and 12 unused wires.
+<suppressed ~1 debug messages>
+
+4.7.13. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_testbench.
+
+4.7.14. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.7.15. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \mfi_testbench..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~35 debug messages>
+
+4.7.16. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \mfi_testbench.
+Performed a total of 0 changes.
+
+4.7.17. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_testbench'.
+Removed a total of 0 cells.
+
+4.7.18. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_testbench..
+
+4.7.19. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_testbench.
+
+4.7.20. Finished OPT passes. (There is nothing left to do.)
+
+4.8. Executing WREDUCE pass (reducing word size of cells).
+Removed top 28 address bits (of 32) from memory write port mfi_testbench.$flatten\wrapper.\dut.$auto$proc_memwr.cc:37:proc_memwr$824 (wrapper.dut.regs).
+Removed top 28 address bits (of 32) from memory write port mfi_testbench.$flatten\wrapper.\dut.$auto$proc_memwr.cc:37:proc_memwr$825 (wrapper.dut.regs).
+Removed top 28 address bits (of 32) from memory read port mfi_testbench.$flatten\wrapper.\dut.$memrd$\regs$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:122$186 (wrapper.dut.regs).
+Removed top 24 bits (of 32) from mux cell mfi_testbench.$ternary$mfi_testbench.sv:11$6 ($mux).
+Removed top 31 bits (of 32) from port B of cell mfi_testbench.$add$mfi_testbench.sv:14$9 ($add).
+Removed top 23 bits (of 32) from port Y of cell mfi_testbench.$add$mfi_testbench.sv:14$9 ($add).
+Removed top 24 bits (of 32) from mux cell mfi_testbench.$ternary$mfi_testbench.sv:14$10 ($mux).
+Removed top 31 bits (of 32) from port B of cell mfi_testbench.$lt$mfi_testbench.sv:19$11 ($lt).
+Removed top 3 bits (of 8) from port B of cell mfi_testbench.$eq$mfi_testbench.sv:24$12 ($eq).
+Removed top 4 bits (of 8) from port B of cell mfi_testbench.$flatten\checker_inst.\inst_spec.$eq$inst_sub.v:33$175 ($eq).
+Removed top 29 bits (of 32) from port B of cell mfi_testbench.$flatten\checker_inst.\inst_spec.$add$inst_sub.v:38$177 ($add).
+Removed top 29 bits (of 32) from port B of cell mfi_testbench.$flatten\wrapper.\dut.$add$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:122$187 ($add).
+Removed top 19 bits (of 32) from port A of cell mfi_testbench.$flatten\wrapper.\dut.$shl$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:132$200 ($shl).
+Removed top 31 bits (of 32) from mux cell mfi_testbench.$flatten\wrapper.\dut.$ternary$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:157$214 ($mux).
+Removed top 29 bits (of 32) from port B of cell mfi_testbench.$flatten\wrapper.\dut.$sub$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:171$218 ($sub).
+Removed top 1 bits (of 3) from port B of cell mfi_testbench.$flatten\wrapper.\dut.$procmux$222_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell mfi_testbench.$flatten\wrapper.\dut.$procmux$223_CMP0 ($eq).
+Removed top 2 bits (of 3) from port B of cell mfi_testbench.$flatten\wrapper.\dut.$procmux$224_CMP0 ($eq).
+Removed top 3 bits (of 8) from port B of cell mfi_testbench.$flatten\wrapper.\dut.$procmux$243_CMP0 ($eq).
+Removed top 5 bits (of 12) from mux cell mfi_testbench.$flatten\wrapper.\dut.$procmux$242 ($pmux).
+Removed top 3 bits (of 8) from port B of cell mfi_testbench.$flatten\wrapper.\dut.$procmux$244_CMP0 ($eq).
+Removed top 4 bits (of 8) from port B of cell mfi_testbench.$flatten\wrapper.\dut.$procmux$245_CMP0 ($eq).
+Removed top 4 bits (of 8) from port B of cell mfi_testbench.$flatten\wrapper.\dut.$procmux$246_CMP0 ($eq).
+Removed cell mfi_testbench.$flatten\wrapper.\dut.$procdff$800 ($dff).
+Removed cell mfi_testbench.$flatten\wrapper.\dut.$procdff$810 ($dff).
+Removed cell mfi_testbench.$flatten\wrapper.\dut.$procdff$811 ($dff).
+Removed top 1 bits (of 9) from port Y of cell mfi_testbench.$add$mfi_testbench.sv:14$9 ($add).
+Removed top 24 bits (of 32) from wire mfi_testbench.$add$mfi_testbench.sv:14$9_Y.
+Removed top 31 bits (of 32) from wire mfi_testbench.$flatten\wrapper.\dut.$eq$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:144$211_Y.
+Removed top 31 bits (of 32) from wire mfi_testbench.$ne$mfi_testbench.sv:14$8_Y.
+
+4.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_testbench..
+Removed 0 unused cells and 6 unused wires.
+<suppressed ~1 debug messages>
+
+4.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+4.11. Executing OPT pass (performing simple optimizations).
+
+4.11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_testbench.
+<suppressed ~22 debug messages>
+
+4.11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_testbench'.
+<suppressed ~8 debug messages>
+Removed a total of 4 cells.
+
+4.11.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_testbench..
+Removed 1 unused cells and 21 unused wires.
+<suppressed ~3 debug messages>
+
+4.11.4. Finished fast OPT passes.
+
+4.12. Printing statistics.
+
+=== mfi_testbench ===
+
+   Number of wires:                228
+   Number of wire bits:           3142
+   Number of public wires:         165
+   Number of public wire bits:    2597
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                102
+     $add                            5
+     $and                            4
+     $anyseq                         2
+     $assert                         7
+     $assume                         2
+     $cover                          4
+     $dff                           13
+     $dlatch                         1
+     $eq                            16
+     $initstate                      1
+     $logic_and                      6
+     $logic_not                      4
+     $lt                             1
+     $mem                            1
+     $mux                           23
+     $ne                             1
+     $neg                            1
+     $not                            5
+     $or                             1
+     $pmux                           2
+     $sub                            2
+
+4.13. Executing CHECK pass (checking for obvious problems).
+Checking module mfi_testbench...
+Found and reported 0 problems.
+
+5. Executing MEMORY_NORDFF pass (extracting $dff cells from memories).
+
+6. Executing ASYNC2SYNC pass.
+Replacing mfi_testbench.$flatten\wrapper.\dut.$auto$proc_dlatch.cc:427:proc_dlatch$732 ($dlatch): EN=$flatten\wrapper.\dut.$auto$rtlil.cc:2126:ReduceOr$765, D=$flatten\wrapper.\dut.$0\alu_out[31:0], Q=\wrapper.dut.alu_out
+
+7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_testbench..
+Removed 9 unused cells and 10 unused wires.
+<suppressed ~10 debug messages>
+
+8. Executing SETUNDEF pass (replace undef values with defined constants).
+
+9. Executing OPT pass (performing simple optimizations).
+
+9.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_testbench.
+
+9.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_testbench'.
+Removed a total of 0 cells.
+
+9.3. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $procdff$822 ($dff) from module mfi_testbench (D = $add$mfi_testbench.sv:14$9_Y, Q = \cycle_reg, rval = 8'00000001).
+Adding SRST signal on $flatten\wrapper.\dut.$procdff$797 ($dff) from module mfi_testbench (D = $flatten\wrapper.\dut.$add$/Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v:158$215_Y, Q = \wrapper.dut.mfi_order, rval = 0).
+Adding SRST signal on $flatten\wrapper.\dut.$procdff$796 ($dff) from module mfi_testbench (D = \wrapper.inst_valid, Q = \wrapper.dut.mfi_valid, rval = 1'0).
+
+9.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_testbench..
+Removed 4 unused cells and 5 unused wires.
+<suppressed ~6 debug messages>
+
+9.5. Rerunning OPT passes. (Removed registers in this run.)
+
+9.6. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_testbench.
+
+9.7. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_testbench'.
+Removed a total of 0 cells.
+
+9.8. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_testbench..
+
+9.10. Finished fast OPT passes.
+
+10. Executing CHECK pass (checking for obvious problems).
+Checking module mfi_testbench...
+Found and reported 0 problems.
+
+11. Executing HIERARCHY pass (managing design hierarchy).
+
+11.1. Analyzing design hierarchy..
+Top module:  \mfi_testbench
+
+11.2. Analyzing design hierarchy..
+Top module:  \mfi_testbench
+Removed 0 unused modules.
+Module mfi_testbench directly or indirectly contains formal properties -> setting "keep" attribute.
+
+12. Executing RTLIL backend.
+Output filename: ../model/design.il
+
+End of script. Logfile hash: 17d8ea98b3, CPU: user 0.22s system 0.01s
+Yosys 0.9+4008 (git sha1 396ad17e, clang 12.0.0 -fPIC -Os)
+Time spent: 28% 9x opt_clean (0 sec), 12% 3x check (0 sec), ...

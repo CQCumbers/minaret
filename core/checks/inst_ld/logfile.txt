@@ -1,0 +1,70 @@
+SBY 11:05:34 [inst_ld] Removing directory 'inst_ld'.
+SBY 11:05:34 [inst_ld] Writing 'inst_ld/src/defines.sv'.
+SBY 11:05:34 [inst_ld] Writing 'inst_ld/src/inst_ld.sv'.
+SBY 11:05:34 [inst_ld] Copy '/Users/alexanderzhang/Documents/classes/minaret/core/../checks/mfi_macros.vh' to 'inst_ld/src/mfi_macros.vh'.
+SBY 11:05:34 [inst_ld] Copy '/Users/alexanderzhang/Documents/classes/minaret/core/../checks/mfi_testbench.sv' to 'inst_ld/src/mfi_testbench.sv'.
+SBY 11:05:34 [inst_ld] Copy '/Users/alexanderzhang/Documents/classes/minaret/core/../checks/mfi_inst_check.sv' to 'inst_ld/src/mfi_inst_check.sv'.
+SBY 11:05:34 [inst_ld] Copy '/Users/alexanderzhang/Documents/classes/minaret/core/../insts/inst_ld.v' to 'inst_ld/src/inst_ld.v'.
+SBY 11:05:34 [inst_ld] engine_0: smtbmc boolector
+SBY 11:05:34 [inst_ld] base: starting process "cd inst_ld/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 11:05:34 [inst_ld] base: finished (returncode=0)
+SBY 11:05:34 [inst_ld] smt2: starting process "cd inst_ld/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 11:05:34 [inst_ld] smt2: finished (returncode=0)
+SBY 11:05:34 [inst_ld] engine_0: starting process "cd inst_ld; yosys-smtbmc -s boolector --presat --unroll --vlogtb-top wrapper.uut --noprogress -t 22  --append 0 --dump-vcd engine_0/trace.vcd --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Solver: boolector
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 0..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 0..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 1..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 1..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 2..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 2..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 3..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 3..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 4..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 4..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 5..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 5..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 6..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 6..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 7..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 7..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 8..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 8..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 9..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 9..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 10..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 10..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 11..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 11..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 12..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 12..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 13..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 13..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 14..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 14..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 15..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 15..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 16..
+SBY 11:05:34 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 16..
+SBY 11:05:35 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 17..
+SBY 11:05:35 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 17..
+SBY 11:05:35 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 18..
+SBY 11:05:35 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 18..
+SBY 11:05:35 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 19..
+SBY 11:05:35 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 19..
+SBY 11:05:35 [inst_ld] engine_0: ##   0:00:00  Checking assumptions in step 20..
+SBY 11:05:35 [inst_ld] engine_0: ##   0:00:00  Checking assertions in step 20..
+SBY 11:05:35 [inst_ld] engine_0: ##   0:00:01  BMC failed!
+SBY 11:05:35 [inst_ld] engine_0: ##   0:00:01  Assert failed in mfi_testbench: mfi_testbench.sv:17.17-27.3|mfi_inst_check.sv:71.53-72.52
+SBY 11:05:35 [inst_ld] engine_0: ##   0:00:01  Writing trace to VCD file: engine_0/trace.vcd
+SBY 11:05:36 [inst_ld] engine_0: ##   0:00:01  Writing trace to Verilog testbench: engine_0/trace_tb.v
+SBY 11:05:36 [inst_ld] engine_0: ##   0:00:01  Vlog top module 'wrapper.uut' not found: no cell 'wrapper' in module 'mfi_testbench'
+SBY 11:05:36 [inst_ld] engine_0: ##   0:00:01  Writing trace to constraints file: engine_0/trace.smtc
+SBY 11:05:36 [inst_ld] engine_0: ##   0:00:01  Status: failed
+SBY 11:05:36 [inst_ld] engine_0: finished (returncode=1)
+SBY 11:05:36 [inst_ld] engine_0: Status returned by engine: FAIL
+SBY 11:05:36 [inst_ld] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:02 (2)
+SBY 11:05:36 [inst_ld] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:02 (2)
+SBY 11:05:36 [inst_ld] summary: engine_0 (smtbmc boolector) returned FAIL
+SBY 11:05:36 [inst_ld] summary: counterexample trace: inst_ld/engine_0/trace.vcd
+SBY 11:05:36 [inst_ld] DONE (FAIL, rc=2)

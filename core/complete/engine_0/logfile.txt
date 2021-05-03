@@ -1,0 +1,14 @@
+ABC command line: "read_aiger model/design_aiger.aig; fold; strash; bmc3 -F 20 -v; write_cex -a engine_0/trace.aiw".
+Warning: The network has no constraints.
+Running "bmc3". PI/PO/Reg = 36/1/2. And =      0. Lev =     0. ObjNums =    42.
+Params: FramesMax = 20. Start = 0. ConfLimit = 0. TimeOut = 0. SolveAll = 0.
+0 + : Var =       1. Cla =        0. Conf =      0. Learn =      0.    0 MB   4 MB     0.02 sec
+1 + : Var =       1. Cla =        0. Conf =      0. Learn =      0.    0 MB   4 MB     0.02 sec
+2 + : Var =       1. Cla =        0. Conf =      0. Learn =      0.    0 MB   4 MB     0.02 sec
+3 + : Var =       1. Cla =        0. Conf =      0. Learn =      0.    0 MB   4 MB     0.02 sec
+Stopping BMC because all 2^2 reachable states are visited.
+Runtime:  CNF = 0.0 sec (0.0 %)  UNSAT = 0.0 sec (0.0 %)  SAT = 0.0 sec (0.0 %)  UNDEC = 0.0 sec (0.0 %)
+LStart(P) = 10000  LDelta(Q) = 2000  LRatio(R) = 80  ReduceDB = 0  Vars = 1000  Used = 0 (0.00 %)
+Buffs = 0. Dups = 0.   Hash hits = 0.  Hash misses = 0.  UniProps = 0.
+Explored all reachable states after completing 4 frames.  Time =     0.02 sec
+Counter-example is not available.

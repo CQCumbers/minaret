@@ -1,0 +1,35 @@
+[options]
+mode bmc
+aigsmt z3
+depth 20
+
+[engines]
+abc bmc3
+
+[script]
+verilog_defines -D DEBUGNETS
+verilog_defines -D MINA_FORMAL
+read_verilog -sv mfi_macros.vh
+read_verilog -sv minaret.v
+
+--pycode-begin--
+with open("../insts/isa_m32.txt") as f:
+  for line in f:
+    output("read_verilog -sv inst_%s.v" % line.strip())
+--pycode-end--
+
+read_verilog -sv isa_m32.v
+read_verilog -sv complete.sv
+prep -nordff -top testbench
+
+[files]
+complete.sv
+minaret.v
+../checks/mfi_macros.vh
+../insts/isa_m32.v
+
+--pycode-begin--
+with open("../insts/isa_m32.txt") as f:
+  for line in f:
+    output("../insts/inst_%s.v" % line.strip())
+--pycode-end--

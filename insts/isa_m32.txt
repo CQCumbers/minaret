@@ -1,0 +1,6 @@
+add
+and
+ld
+or
+st
+sub

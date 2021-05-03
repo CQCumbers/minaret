@@ -1,0 +1,91 @@
+SBY 11:31:03 [pc_fwd] Writing 'pc_fwd/src/defines.sv'.
+SBY 11:31:03 [pc_fwd] Writing 'pc_fwd/src/pc_fwd.sv'.
+SBY 11:31:03 [pc_fwd] Copy '/Users/alexanderzhang/Documents/classes/minaret/core/../checks/mfi_macros.vh' to 'pc_fwd/src/mfi_macros.vh'.
+SBY 11:31:03 [pc_fwd] Copy '/Users/alexanderzhang/Documents/classes/minaret/core/../checks/mfi_testbench.sv' to 'pc_fwd/src/mfi_testbench.sv'.
+SBY 11:31:03 [pc_fwd] Copy '/Users/alexanderzhang/Documents/classes/minaret/core/../checks/mfi_pc_fwd_check.sv' to 'pc_fwd/src/mfi_pc_fwd_check.sv'.
+SBY 11:31:03 [pc_fwd] engine_0: smtbmc boolector
+SBY 11:31:03 [pc_fwd] base: starting process "cd pc_fwd/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 11:31:03 [pc_fwd] base: finished (returncode=0)
+SBY 11:31:03 [pc_fwd] smt2: starting process "cd pc_fwd/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 11:31:03 [pc_fwd] smt2: finished (returncode=0)
+SBY 11:31:03 [pc_fwd] engine_0: starting process "cd pc_fwd; yosys-smtbmc -s boolector --presat --unroll --vlogtb-top wrapper.uut --noprogress -t 32  --append 0 --dump-vcd engine_0/trace.vcd --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Solver: boolector
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 0..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 0..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 1..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 1..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 2..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 2..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 3..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 3..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 4..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 4..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 5..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 5..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 6..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 6..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 7..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 7..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 8..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 8..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 9..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 9..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 10..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 10..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 11..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 11..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 12..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 12..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 13..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 13..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 14..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 14..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 15..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 15..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 16..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 16..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 17..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 17..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 18..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 18..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 19..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 19..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 20..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 20..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 21..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 21..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 22..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 22..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 23..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 23..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 24..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 24..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 25..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 25..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 26..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 26..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 27..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 27..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 28..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 28..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 29..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 29..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 30..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 30..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assumptions in step 31..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Checking assertions in step 31..
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  BMC failed!
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Value for anyconst mfi_testbench.inst_order (mfi_testbench.sv:17.19-27.3|mfi_pc_fwd_check.sv:0.0-0.0): 14
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Assert failed in mfi_testbench: mfi_testbench.sv:17.19-27.3|mfi_pc_fwd_check.sv:23.43-24.50
+SBY 11:31:04 [pc_fwd] engine_0: ##   0:00:00  Writing trace to VCD file: engine_0/trace.vcd
+SBY 11:31:05 [pc_fwd] engine_0: ##   0:00:01  Writing trace to Verilog testbench: engine_0/trace_tb.v
+SBY 11:31:05 [pc_fwd] engine_0: ##   0:00:01  Vlog top module 'wrapper.uut' not found: no cell 'wrapper' in module 'mfi_testbench'
+SBY 11:31:05 [pc_fwd] engine_0: ##   0:00:01  Writing trace to constraints file: engine_0/trace.smtc
+SBY 11:31:05 [pc_fwd] engine_0: ##   0:00:01  Status: failed
+SBY 11:31:05 [pc_fwd] engine_0: finished (returncode=1)
+SBY 11:31:05 [pc_fwd] engine_0: Status returned by engine: FAIL
+SBY 11:31:05 [pc_fwd] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:01 (1)
+SBY 11:31:05 [pc_fwd] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:01 (1)
+SBY 11:31:05 [pc_fwd] summary: engine_0 (smtbmc boolector) returned FAIL
+SBY 11:31:05 [pc_fwd] summary: counterexample trace: pc_fwd/engine_0/trace.vcd
+SBY 11:31:05 [pc_fwd] DONE (FAIL, rc=2)

@@ -1,0 +1,32 @@
+[options]
+mode bmc
+append 0
+tbtop wrapper.uut
+depth 32
+
+[engines]
+smtbmc boolector
+
+[script]
+read_verilog -sv causal.sv
+read_verilog -sv /Users/alexanderzhang/Documents/classes/minaret/core/../core/wrapper.sv
+read_verilog /Users/alexanderzhang/Documents/classes/minaret/core/../core/minaret.v
+prep -flatten -nordff -top mfi_testbench
+
+[files]
+/Users/alexanderzhang/Documents/classes/minaret/core/../checks/mfi_macros.vh
+/Users/alexanderzhang/Documents/classes/minaret/core/../checks/mfi_testbench.sv
+/Users/alexanderzhang/Documents/classes/minaret/core/../checks/mfi_causal_check.sv
+
+[file defines.sv]
+`define MINA_FORMAL
+`define MINA_FORMAL_CHECKER mfi_causal_check
+`define MINA_FORMAL_RESET_CYCLES 10
+`define MINA_FORMAL_CHECK_CYCLE 30
+`define DEBUGNETS
+`include "mfi_macros.vh"
+
+[file causal.sv]
+`include "defines.sv"
+`include "mfi_testbench.sv"
+`include "mfi_causal_check.sv"

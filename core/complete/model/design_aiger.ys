@@ -1,0 +1,14 @@
+# running in complete/model/
+read_ilang design_nomem.il
+flatten
+setundef -undriven -anyseq
+setattr -unset keep
+delete -output
+opt -full
+techmap
+opt -fast
+dffunmap
+abc -g AND -fast
+opt_clean
+stat
+write_aiger -I -B -zinit -map design_aiger.aim design_aiger.aig

@@ -1,0 +1,37 @@
+[options]
+mode bmc
+aigsmt z3
+depth 20
+
+[engines]
+abc bmc3
+
+[script]
+verilog_defines -D DEBUGNETS
+verilog_defines -D MINA_FORMAL
+read_verilog -sv mfi_macros.vh
+read_verilog -sv minaret.v
+
+read_verilog -sv inst_add.v
+read_verilog -sv inst_and.v
+read_verilog -sv inst_ld.v
+read_verilog -sv inst_or.v
+read_verilog -sv inst_st.v
+read_verilog -sv inst_sub.v
+
+read_verilog -sv isa_m32.v
+read_verilog -sv complete.sv
+prep -nordff -top testbench
+
+[files]
+complete.sv
+minaret.v
+../checks/mfi_macros.vh
+../insts/isa_m32.v
+
+../insts/inst_add.v
+../insts/inst_and.v
+../insts/inst_ld.v
+../insts/inst_or.v
+../insts/inst_st.v
+../insts/inst_sub.v

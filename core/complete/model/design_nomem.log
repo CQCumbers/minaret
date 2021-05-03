@@ -1,0 +1,1513 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Wolf <claire@symbioticeda.com>          |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.9+4008 (git sha1 396ad17e, clang 12.0.0 -fPIC -Os)
+
+
+-- Executing script file `../model/design_nomem.ys' --
+
+1. Executing Verilog-2005 frontend: mfi_macros.vh
+Parsing SystemVerilog input from `mfi_macros.vh' to AST representation.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: minaret.v
+Parsing SystemVerilog input from `minaret.v' to AST representation.
+Generating RTLIL representation for module `\minaret'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: inst_add.v
+Parsing SystemVerilog input from `inst_add.v' to AST representation.
+Generating RTLIL representation for module `\mfi_inst_add'.
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend: inst_and.v
+Parsing SystemVerilog input from `inst_and.v' to AST representation.
+Generating RTLIL representation for module `\mfi_inst_and'.
+Successfully finished Verilog frontend.
+
+5. Executing Verilog-2005 frontend: inst_ld.v
+Parsing SystemVerilog input from `inst_ld.v' to AST representation.
+Generating RTLIL representation for module `\mfi_inst_ld'.
+Successfully finished Verilog frontend.
+
+6. Executing Verilog-2005 frontend: inst_or.v
+Parsing SystemVerilog input from `inst_or.v' to AST representation.
+Generating RTLIL representation for module `\mfi_inst_or'.
+Successfully finished Verilog frontend.
+
+7. Executing Verilog-2005 frontend: inst_st.v
+Parsing SystemVerilog input from `inst_st.v' to AST representation.
+Generating RTLIL representation for module `\mfi_inst_st'.
+Successfully finished Verilog frontend.
+
+8. Executing Verilog-2005 frontend: inst_sub.v
+Parsing SystemVerilog input from `inst_sub.v' to AST representation.
+Generating RTLIL representation for module `\mfi_inst_sub'.
+Successfully finished Verilog frontend.
+
+9. Executing Verilog-2005 frontend: isa_m32.v
+Parsing SystemVerilog input from `isa_m32.v' to AST representation.
+Generating RTLIL representation for module `\mfi_isa_m32'.
+Successfully finished Verilog frontend.
+
+10. Executing Verilog-2005 frontend: complete.sv
+Parsing SystemVerilog input from `complete.sv' to AST representation.
+Generating RTLIL representation for module `\testbench'.
+Successfully finished Verilog frontend.
+
+11. Executing PREP pass.
+
+11.1. Executing HIERARCHY pass (managing design hierarchy).
+
+11.1.1. Analyzing design hierarchy..
+Top module:  \testbench
+Used module:     \mfi_isa_m32
+Used module:         \mfi_inst_sub
+Used module:         \mfi_inst_st
+Used module:         \mfi_inst_or
+Used module:         \mfi_inst_ld
+Used module:         \mfi_inst_and
+Used module:         \mfi_inst_add
+Used module:     \minaret
+
+11.1.2. Analyzing design hierarchy..
+Top module:  \testbench
+Used module:     \mfi_isa_m32
+Used module:         \mfi_inst_sub
+Used module:         \mfi_inst_st
+Used module:         \mfi_inst_or
+Used module:         \mfi_inst_ld
+Used module:         \mfi_inst_and
+Used module:         \mfi_inst_add
+Used module:     \minaret
+Removed 0 unused modules.
+Module testbench directly or indirectly contains formal properties -> setting "keep" attribute.
+
+11.2. Executing PROC pass (convert processes to netlists).
+
+11.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+11.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$minaret.v:128$9 in module minaret.
+Removed 2 dead cases from process $proc$minaret.v:98$1 in module minaret.
+Marked 1 switch rules as full_case in process $proc$minaret.v:98$1 in module minaret.
+Removed a total of 2 dead cases.
+
+11.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 35 assignments to connections.
+
+11.2.4. Executing PROC_INIT pass (extract init attributes).
+Found init rule in `\testbench.$proc$complete.sv:0$213'.
+  Set init value: $formal$complete.sv:58$200_EN = 1'0
+Found init rule in `\testbench.$proc$complete.sv:6$212'.
+  Set init value: \reset = 1'1
+
+11.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+11.2.6. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\testbench.$proc$complete.sv:0$213'.
+Creating decoders for process `\testbench.$proc$complete.sv:6$212'.
+Creating decoders for process `\testbench.$proc$complete.sv:57$202'.
+     1/2: $0$formal$complete.sv:58$200_EN[0:0]$204
+     2/2: $0$formal$complete.sv:58$200_CHECK[0:0]$203
+Creating decoders for process `\testbench.$proc$complete.sv:8$201'.
+Creating decoders for process `\minaret.$proc$minaret.v:147$16'.
+Creating decoders for process `\minaret.$proc$minaret.v:128$9'.
+     1/1: $1\alu_out[31:0]
+Creating decoders for process `\minaret.$proc$minaret.v:98$1'.
+     1/1: { $1\pc_src[0:0] $1\A_src[0:0] $1\B_src[1:0] $1\alu_op[2:0] $1\wb_src[0:0] $1\wb[0:0] $1\ld_ty[0:0] $1\st_ty[0:0] $1\br[0:0] }
+
+11.2.7. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\minaret.\alu_sum' from process `\minaret.$proc$minaret.v:128$9'.
+Latch inferred for signal `\minaret.\alu_out' from process `\minaret.$proc$minaret.v:128$9': $auto$proc_dlatch.cc:427:proc_dlatch$231
+No latch inferred for signal `\minaret.\pc_src' from process `\minaret.$proc$minaret.v:98$1'.
+No latch inferred for signal `\minaret.\A_src' from process `\minaret.$proc$minaret.v:98$1'.
+No latch inferred for signal `\minaret.\B_src' from process `\minaret.$proc$minaret.v:98$1'.
+No latch inferred for signal `\minaret.\alu_op' from process `\minaret.$proc$minaret.v:98$1'.
+No latch inferred for signal `\minaret.\wb_src' from process `\minaret.$proc$minaret.v:98$1'.
+No latch inferred for signal `\minaret.\wb' from process `\minaret.$proc$minaret.v:98$1'.
+No latch inferred for signal `\minaret.\ld_ty' from process `\minaret.$proc$minaret.v:98$1'.
+No latch inferred for signal `\minaret.\st_ty' from process `\minaret.$proc$minaret.v:98$1'.
+No latch inferred for signal `\minaret.\br' from process `\minaret.$proc$minaret.v:98$1'.
+
+11.2.8. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\testbench.$formal$complete.sv:58$200_CHECK' using process `\testbench.$proc$complete.sv:57$202'.
+  created $dff cell `$procdff$266' with positive edge clock.
+Creating register for signal `\testbench.$formal$complete.sv:58$200_EN' using process `\testbench.$proc$complete.sv:57$202'.
+  created $dff cell `$procdff$267' with positive edge clock.
+Creating register for signal `\testbench.\reset' using process `\testbench.$proc$complete.sv:8$201'.
+  created $dff cell `$procdff$268' with positive edge clock.
+Creating register for signal `\minaret.\mfi_valid' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$269' with positive edge clock.
+Creating register for signal `\minaret.\mfi_order' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$270' with positive edge clock.
+Creating register for signal `\minaret.\mfi_inst' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$271' with positive edge clock.
+Creating register for signal `\minaret.\mfi_trap' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$272' with positive edge clock.
+Creating register for signal `\minaret.\mfi_halt' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$273' with positive edge clock.
+Creating register for signal `\minaret.\mfi_intr' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$274' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mode' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$275' with positive edge clock.
+Creating register for signal `\minaret.\mfi_ixl' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$276' with positive edge clock.
+Creating register for signal `\minaret.\mfi_src1_addr' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$277' with positive edge clock.
+Creating register for signal `\minaret.\mfi_src2_addr' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$278' with positive edge clock.
+Creating register for signal `\minaret.\mfi_src1_rdata' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$279' with positive edge clock.
+Creating register for signal `\minaret.\mfi_src2_rdata' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$280' with positive edge clock.
+Creating register for signal `\minaret.\mfi_dest_addr' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$281' with positive edge clock.
+Creating register for signal `\minaret.\mfi_dest_wdata' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$282' with positive edge clock.
+Creating register for signal `\minaret.\mfi_pc_rdata' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$283' with positive edge clock.
+Creating register for signal `\minaret.\mfi_pc_wdata' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$284' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mem_addr' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$285' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mem_rmask' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$286' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mem_wmask' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$287' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mem_rdata' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$288' with positive edge clock.
+Creating register for signal `\minaret.\mfi_mem_wdata' using process `\minaret.$proc$minaret.v:147$16'.
+  created $dff cell `$procdff$289' with positive edge clock.
+
+11.2.9. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+11.2.10. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `testbench.$proc$complete.sv:0$213'.
+Removing empty process `testbench.$proc$complete.sv:6$212'.
+Found and cleaned up 1 empty switch in `\testbench.$proc$complete.sv:57$202'.
+Removing empty process `testbench.$proc$complete.sv:57$202'.
+Removing empty process `testbench.$proc$complete.sv:8$201'.
+Removing empty process `minaret.$proc$minaret.v:147$16'.
+Found and cleaned up 1 empty switch in `\minaret.$proc$minaret.v:128$9'.
+Removing empty process `minaret.$proc$minaret.v:128$9'.
+Found and cleaned up 1 empty switch in `\minaret.$proc$minaret.v:98$1'.
+Removing empty process `minaret.$proc$minaret.v:98$1'.
+Cleaned up 3 empty switches.
+
+11.3. Executing OPT_EXPR pass (perform const folding).
+Optimizing module testbench.
+Optimizing module mfi_isa_m32.
+Optimizing module mfi_inst_sub.
+<suppressed ~3 debug messages>
+Optimizing module mfi_inst_st.
+<suppressed ~4 debug messages>
+Optimizing module mfi_inst_or.
+<suppressed ~3 debug messages>
+Optimizing module mfi_inst_ld.
+<suppressed ~4 debug messages>
+Optimizing module mfi_inst_and.
+<suppressed ~3 debug messages>
+Optimizing module mfi_inst_add.
+<suppressed ~3 debug messages>
+Optimizing module minaret.
+<suppressed ~36 debug messages>
+
+11.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \testbench..
+Finding unused cells or wires in module \mfi_isa_m32..
+Finding unused cells or wires in module \mfi_inst_sub..
+Finding unused cells or wires in module \mfi_inst_st..
+Finding unused cells or wires in module \mfi_inst_or..
+Finding unused cells or wires in module \mfi_inst_ld..
+Finding unused cells or wires in module \mfi_inst_and..
+Finding unused cells or wires in module \mfi_inst_add..
+Finding unused cells or wires in module \minaret..
+Removed 2 unused cells and 178 unused wires.
+<suppressed ~55 debug messages>
+
+11.5. Executing CHECK pass (checking for obvious problems).
+Checking module mfi_inst_add...
+Checking module mfi_inst_and...
+Checking module mfi_inst_ld...
+Checking module mfi_inst_or...
+Checking module mfi_inst_st...
+Checking module mfi_inst_sub...
+Checking module mfi_isa_m32...
+Checking module minaret...
+Checking module testbench...
+Found and reported 0 problems.
+
+11.6. Executing OPT pass (performing simple optimizations).
+
+11.6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_inst_add.
+Optimizing module mfi_inst_and.
+Optimizing module mfi_inst_ld.
+Optimizing module mfi_inst_or.
+Optimizing module mfi_inst_st.
+Optimizing module mfi_inst_sub.
+Optimizing module mfi_isa_m32.
+Optimizing module minaret.
+Optimizing module testbench.
+
+11.6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_inst_add'.
+Finding identical cells in module `\mfi_inst_and'.
+Finding identical cells in module `\mfi_inst_ld'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `\mfi_inst_or'.
+Finding identical cells in module `\mfi_inst_st'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `\mfi_inst_sub'.
+Finding identical cells in module `\mfi_isa_m32'.
+Finding identical cells in module `\minaret'.
+<suppressed ~21 debug messages>
+Finding identical cells in module `\testbench'.
+Removed a total of 9 cells.
+
+11.6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \mfi_inst_add..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mfi_inst_and..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mfi_inst_ld..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mfi_inst_or..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mfi_inst_st..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \mfi_inst_sub..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mfi_isa_m32..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port B of cell $ternary$isa_m32.v:216$103: { 31'0000000000000000000000000000000 \spec_inst_add_valid } -> 1
+      Replacing known input bits on port B of cell $ternary$isa_m32.v:217$101: { 31'0000000000000000000000000000000 \spec_inst_and_valid } -> 1
+      Replacing known input bits on port B of cell $ternary$isa_m32.v:218$99: { 31'0000000000000000000000000000000 \spec_inst_ld_valid } -> 1
+      Replacing known input bits on port B of cell $ternary$isa_m32.v:219$97: { 31'0000000000000000000000000000000 \spec_inst_or_valid } -> 1
+      Replacing known input bits on port B of cell $ternary$isa_m32.v:220$95: { 31'0000000000000000000000000000000 \spec_inst_st_valid } -> 1
+      Replacing known input bits on port B of cell $ternary$isa_m32.v:221$93: { 31'0000000000000000000000000000000 \spec_inst_sub_valid } -> 1
+  Analyzing evaluation results.
+Running muxtree optimizer on module \minaret..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 1/6 on $pmux $procmux$220.
+    dead port 2/6 on $pmux $procmux$220.
+    dead port 3/6 on $pmux $procmux$220.
+    dead port 4/6 on $pmux $procmux$220.
+    dead port 6/6 on $pmux $procmux$220.
+Running muxtree optimizer on module \testbench..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 5 multiplexer ports.
+<suppressed ~21 debug messages>
+
+11.6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \mfi_inst_add.
+  Optimizing cells in module \mfi_inst_and.
+  Optimizing cells in module \mfi_inst_ld.
+  Optimizing cells in module \mfi_inst_or.
+  Optimizing cells in module \mfi_inst_st.
+  Optimizing cells in module \mfi_inst_sub.
+  Optimizing cells in module \mfi_isa_m32.
+  Optimizing cells in module \minaret.
+  Optimizing cells in module \testbench.
+Performed a total of 0 changes.
+
+11.6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_inst_add'.
+Finding identical cells in module `\mfi_inst_and'.
+Finding identical cells in module `\mfi_inst_ld'.
+Finding identical cells in module `\mfi_inst_or'.
+Finding identical cells in module `\mfi_inst_st'.
+Finding identical cells in module `\mfi_inst_sub'.
+Finding identical cells in module `\mfi_isa_m32'.
+Finding identical cells in module `\minaret'.
+Finding identical cells in module `\testbench'.
+Removed a total of 0 cells.
+
+11.6.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_inst_add..
+Finding unused cells or wires in module \mfi_inst_and..
+Finding unused cells or wires in module \mfi_inst_ld..
+Finding unused cells or wires in module \mfi_inst_or..
+Finding unused cells or wires in module \mfi_inst_st..
+Finding unused cells or wires in module \mfi_inst_sub..
+Finding unused cells or wires in module \mfi_isa_m32..
+Finding unused cells or wires in module \minaret..
+Finding unused cells or wires in module \testbench..
+Removed 3 unused cells and 6 unused wires.
+<suppressed ~6 debug messages>
+
+11.6.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_inst_add.
+Optimizing module mfi_inst_and.
+Optimizing module mfi_inst_ld.
+Optimizing module mfi_inst_or.
+Optimizing module mfi_inst_st.
+Optimizing module mfi_inst_sub.
+Optimizing module mfi_isa_m32.
+Optimizing module minaret.
+Optimizing module testbench.
+
+11.6.8. Rerunning OPT passes. (Maybe there is more to do..)
+
+11.6.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \mfi_inst_add..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mfi_inst_and..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mfi_inst_ld..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mfi_inst_or..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mfi_inst_st..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \mfi_inst_sub..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mfi_isa_m32..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \minaret..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \testbench..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~20 debug messages>
+
+11.6.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \mfi_inst_add.
+  Optimizing cells in module \mfi_inst_and.
+  Optimizing cells in module \mfi_inst_ld.
+  Optimizing cells in module \mfi_inst_or.
+  Optimizing cells in module \mfi_inst_st.
+  Optimizing cells in module \mfi_inst_sub.
+  Optimizing cells in module \mfi_isa_m32.
+  Optimizing cells in module \minaret.
+  Optimizing cells in module \testbench.
+Performed a total of 0 changes.
+
+11.6.11. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_inst_add'.
+Finding identical cells in module `\mfi_inst_and'.
+Finding identical cells in module `\mfi_inst_ld'.
+Finding identical cells in module `\mfi_inst_or'.
+Finding identical cells in module `\mfi_inst_st'.
+Finding identical cells in module `\mfi_inst_sub'.
+Finding identical cells in module `\mfi_isa_m32'.
+Finding identical cells in module `\minaret'.
+Finding identical cells in module `\testbench'.
+Removed a total of 0 cells.
+
+11.6.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_inst_add..
+Finding unused cells or wires in module \mfi_inst_and..
+Finding unused cells or wires in module \mfi_inst_ld..
+Finding unused cells or wires in module \mfi_inst_or..
+Finding unused cells or wires in module \mfi_inst_st..
+Finding unused cells or wires in module \mfi_inst_sub..
+Finding unused cells or wires in module \mfi_isa_m32..
+Finding unused cells or wires in module \minaret..
+Finding unused cells or wires in module \testbench..
+
+11.6.13. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_inst_add.
+Optimizing module mfi_inst_and.
+Optimizing module mfi_inst_ld.
+Optimizing module mfi_inst_or.
+Optimizing module mfi_inst_st.
+Optimizing module mfi_inst_sub.
+Optimizing module mfi_isa_m32.
+Optimizing module minaret.
+Optimizing module testbench.
+
+11.6.14. Finished OPT passes. (There is nothing left to do.)
+
+11.7. Executing WREDUCE pass (reducing word size of cells).
+Removed top 4 bits (of 8) from port B of cell mfi_inst_add.$eq$inst_add.v:33$26 ($eq).
+Removed top 29 bits (of 32) from port B of cell mfi_inst_add.$add$inst_add.v:38$30 ($add).
+Removed top 3 bits (of 8) from port B of cell mfi_inst_and.$eq$inst_and.v:33$35 ($eq).
+Removed top 29 bits (of 32) from port B of cell mfi_inst_and.$add$inst_and.v:38$39 ($add).
+Removed top 20 bits (of 32) from port A of cell mfi_inst_ld.$shl$inst_ld.v:31$41 ($shl).
+Removed top 28 bits (of 32) from port A of cell mfi_inst_ld.$mul$inst_ld.v:35$44 ($mul).
+Removed top 1 bits (of 8) from port B of cell mfi_inst_ld.$eq$inst_ld.v:36$48 ($eq).
+Removed top 27 bits (of 32) from port A of cell mfi_inst_ld.$shl$inst_ld.v:40$52 ($shl).
+Removed top 28 bits (of 32) from port Y of cell mfi_inst_ld.$shl$inst_ld.v:40$52 ($shl).
+Removed top 29 bits (of 32) from port B of cell mfi_inst_ld.$add$inst_ld.v:42$55 ($add).
+Removed top 30 bits (of 32) from port B of cell mfi_inst_ld.$and$inst_ld.v:43$56 ($and).
+Removed top 3 bits (of 8) from port B of cell mfi_inst_or.$eq$inst_or.v:33$62 ($eq).
+Removed top 29 bits (of 32) from port B of cell mfi_inst_or.$add$inst_or.v:38$66 ($add).
+Removed top 20 bits (of 32) from port A of cell mfi_inst_st.$shl$inst_st.v:31$68 ($shl).
+Removed top 1 bits (of 8) from port B of cell mfi_inst_st.$eq$inst_st.v:35$72 ($eq).
+Removed top 27 bits (of 32) from port A of cell mfi_inst_st.$shl$inst_st.v:39$76 ($shl).
+Removed top 28 bits (of 32) from port Y of cell mfi_inst_st.$shl$inst_st.v:39$76 ($shl).
+Removed top 28 bits (of 32) from port A of cell mfi_inst_st.$mul$inst_st.v:40$78 ($mul).
+Removed top 29 bits (of 32) from port B of cell mfi_inst_st.$add$inst_st.v:41$80 ($add).
+Removed top 30 bits (of 32) from port B of cell mfi_inst_st.$and$inst_st.v:42$81 ($and).
+Removed top 4 bits (of 8) from port B of cell mfi_inst_sub.$eq$inst_sub.v:33$87 ($eq).
+Removed top 29 bits (of 32) from port B of cell mfi_inst_sub.$add$inst_sub.v:38$91 ($add).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:221$93 ($mux).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:220$95 ($mux).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:219$97 ($mux).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:218$99 ($mux).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:217$101 ($mux).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:216$103 ($mux).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:228$105 ($mux).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:227$107 ($mux).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:226$109 ($mux).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:225$111 ($mux).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:224$113 ($mux).
+Removed top 31 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:223$115 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:235$117 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:234$119 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:233$121 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:232$123 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:231$125 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:230$127 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:242$129 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:241$131 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:240$133 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:239$135 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:238$137 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:237$139 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:249$141 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:248$143 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:247$145 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:246$147 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:245$149 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:244$151 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:277$171 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:276$173 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:275$175 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:274$177 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:273$179 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:272$181 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:284$183 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:283$185 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:282$187 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:281$189 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:280$191 ($mux).
+Removed top 28 bits (of 32) from mux cell mfi_isa_m32.$ternary$isa_m32.v:279$193 ($mux).
+Removed top 31 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:217$101_Y.
+Removed top 31 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:218$99_Y.
+Removed top 31 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:220$95_Y.
+Removed top 31 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:221$93_Y.
+Removed top 31 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:224$113_Y.
+Removed top 31 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:225$111_Y.
+Removed top 31 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:226$109_Y.
+Removed top 31 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:228$105_Y.
+Removed top 28 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:231$125_Y.
+Removed top 28 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:232$123_Y.
+Removed top 28 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:238$137_Y.
+Removed top 28 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:239$135_Y.
+Removed top 28 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:240$133_Y.
+Removed top 28 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:241$131_Y.
+Removed top 28 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:242$129_Y.
+Removed top 28 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:245$149_Y.
+Removed top 28 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:273$179_Y.
+Removed top 28 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:274$177_Y.
+Removed top 29 bits (of 32) from wire mfi_isa_m32.$ternary$isa_m32.v:275$175_Y.
+Removed top 1 bits (of 32) from wire mfi_isa_m32.spec_inst_sub_mem_wdata.
+Removed top 31 bits (of 32) from mux cell minaret.$ternary$minaret.v:148$18 ($mux).
+Removed cell minaret.$procdff$273 ($dff).
+Removed cell minaret.$procdff$275 ($dff).
+Removed cell minaret.$procdff$283 ($dff).
+Removed cell minaret.$procdff$286 ($dff).
+Removed top 4 bits (of 16) from wire minaret.immediate.
+
+11.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_inst_add..
+Finding unused cells or wires in module \mfi_inst_and..
+Finding unused cells or wires in module \mfi_inst_ld..
+Finding unused cells or wires in module \mfi_inst_or..
+Finding unused cells or wires in module \mfi_inst_st..
+Finding unused cells or wires in module \mfi_inst_sub..
+Finding unused cells or wires in module \mfi_isa_m32..
+Finding unused cells or wires in module \minaret..
+Finding unused cells or wires in module \testbench..
+Removed 0 unused cells and 30 unused wires.
+<suppressed ~4 debug messages>
+
+11.9. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+11.10. Executing OPT pass (performing simple optimizations).
+
+11.10.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_inst_add.
+Optimizing module mfi_inst_and.
+Optimizing module mfi_inst_ld.
+Optimizing module mfi_inst_or.
+Optimizing module mfi_inst_st.
+Optimizing module mfi_inst_sub.
+Optimizing module mfi_isa_m32.
+Optimizing module minaret.
+Optimizing module testbench.
+
+11.10.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_inst_add'.
+Finding identical cells in module `\mfi_inst_and'.
+Finding identical cells in module `\mfi_inst_ld'.
+Finding identical cells in module `\mfi_inst_or'.
+Finding identical cells in module `\mfi_inst_st'.
+Finding identical cells in module `\mfi_inst_sub'.
+Finding identical cells in module `\mfi_isa_m32'.
+Finding identical cells in module `\minaret'.
+Finding identical cells in module `\testbench'.
+Removed a total of 0 cells.
+
+11.10.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_inst_add..
+Finding unused cells or wires in module \mfi_inst_and..
+Finding unused cells or wires in module \mfi_inst_ld..
+Finding unused cells or wires in module \mfi_inst_or..
+Finding unused cells or wires in module \mfi_inst_st..
+Finding unused cells or wires in module \mfi_inst_sub..
+Finding unused cells or wires in module \mfi_isa_m32..
+Finding unused cells or wires in module \minaret..
+Finding unused cells or wires in module \testbench..
+
+11.10.4. Finished fast OPT passes.
+
+11.11. Printing statistics.
+
+=== mfi_inst_add ===
+
+   Number of wires:                 25
+   Number of wire bits:            397
+   Number of public wires:          23
+   Number of public wire bits:     395
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  6
+     $add                            2
+     $eq                             1
+     $logic_and                      1
+     $mux                            1
+     $reduce_bool                    1
+
+=== mfi_inst_and ===
+
+   Number of wires:                 25
+   Number of wire bits:            397
+   Number of public wires:          23
+   Number of public wire bits:     395
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  6
+     $add                            1
+     $and                            1
+     $eq                             1
+     $logic_and                      1
+     $mux                            1
+     $reduce_bool                    1
+
+=== mfi_inst_ld ===
+
+   Number of wires:                 31
+   Number of wire bits:            569
+   Number of public wires:          26
+   Number of public wire bits:     471
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 14
+     $add                            2
+     $and                            2
+     $eq                             1
+     $logic_and                      1
+     $mul                            1
+     $mux                            1
+     $reduce_bool                    2
+     $shl                            2
+     $shr                            1
+     $sub                            1
+
+=== mfi_inst_or ===
+
+   Number of wires:                 25
+   Number of wire bits:            397
+   Number of public wires:          23
+   Number of public wire bits:     395
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  6
+     $add                            1
+     $eq                             1
+     $logic_and                      1
+     $mux                            1
+     $or                             1
+     $reduce_bool                    1
+
+=== mfi_inst_st ===
+
+   Number of wires:                 29
+   Number of wire bits:            536
+   Number of public wires:          25
+   Number of public wire bits:     439
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 12
+     $add                            2
+     $and                            2
+     $eq                             1
+     $logic_and                      1
+     $mul                            1
+     $reduce_bool                    1
+     $shl                            3
+     $sub                            1
+
+=== mfi_inst_sub ===
+
+   Number of wires:                 25
+   Number of wire bits:            397
+   Number of public wires:          23
+   Number of public wire bits:     395
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  6
+     $add                            1
+     $eq                             1
+     $logic_and                      1
+     $mux                            1
+     $reduce_bool                    1
+     $sub                            1
+
+=== mfi_isa_m32 ===
+
+   Number of wires:                139
+   Number of wire bits:           3002
+   Number of public wires:          83
+   Number of public wire bits:    1210
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 72
+     $mux                           66
+     mfi_inst_add                    1
+     mfi_inst_and                    1
+     mfi_inst_ld                     1
+     mfi_inst_or                     1
+     mfi_inst_st                     1
+     mfi_inst_sub                    1
+
+=== minaret ===
+
+   Number of wires:                 48
+   Number of wire bits:            684
+   Number of public wires:          45
+   Number of public wire bits:     619
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 16
+     $add                            2
+     $dff                           10
+     $dlatch                         1
+     $mem                            1
+     $mux                            2
+
+=== testbench ===
+
+   Number of wires:                 46
+   Number of wire bits:            543
+   Number of public wires:          36
+   Number of public wire bits:     533
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 14
+     $assert                         1
+     $dff                            3
+     $logic_and                      3
+     $logic_not                      3
+     $mux                            2
+     mfi_isa_m32                     1
+     minaret                         1
+
+=== design hierarchy ===
+
+   testbench                         1
+     mfi_isa_m32                     1
+       mfi_inst_add                  1
+       mfi_inst_and                  1
+       mfi_inst_ld                   1
+       mfi_inst_or                   1
+       mfi_inst_st                   1
+       mfi_inst_sub                  1
+     minaret                         1
+
+   Number of wires:                393
+   Number of wire bits:           6922
+   Number of public wires:         307
+   Number of public wire bits:    4852
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                144
+     $add                           11
+     $and                            5
+     $assert                         1
+     $dff                           13
+     $dlatch                         1
+     $eq                             6
+     $logic_and                      9
+     $logic_not                      3
+     $mem                            1
+     $mul                            2
+     $mux                           75
+     $or                             1
+     $reduce_bool                    7
+     $shl                            5
+     $shr                            1
+     $sub                            3
+
+11.12. Executing CHECK pass (checking for obvious problems).
+Checking module mfi_inst_add...
+Checking module mfi_inst_and...
+Checking module mfi_inst_ld...
+Checking module mfi_inst_or...
+Checking module mfi_inst_st...
+Checking module mfi_inst_sub...
+Checking module mfi_isa_m32...
+Checking module minaret...
+Checking module testbench...
+Found and reported 0 problems.
+
+12. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+Mapping memory \regs in module \minaret:
+  created 16 $dff cells and 0 static cells of width 32.
+  read interface: 0 $dff and 30 $mux cells.
+  write interface: 0 write mux blocks.
+
+13. Executing ASYNC2SYNC pass.
+Replacing minaret.$auto$proc_dlatch.cc:427:proc_dlatch$231 ($dlatch): EN=1'0, D=\alu_sum, Q=\alu_out
+
+14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_inst_add..
+Finding unused cells or wires in module \mfi_inst_and..
+Finding unused cells or wires in module \mfi_inst_ld..
+Finding unused cells or wires in module \mfi_inst_or..
+Finding unused cells or wires in module \mfi_inst_st..
+Finding unused cells or wires in module \mfi_inst_sub..
+Finding unused cells or wires in module \mfi_isa_m32..
+Finding unused cells or wires in module \minaret..
+Finding unused cells or wires in module \testbench..
+Removed 0 unused cells and 49 unused wires.
+<suppressed ~1 debug messages>
+
+15. Executing SETUNDEF pass (replace undef values with defined constants).
+
+16. Executing OPT pass (performing simple optimizations).
+
+16.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_inst_add.
+Optimizing module mfi_inst_and.
+Optimizing module mfi_inst_ld.
+Optimizing module mfi_inst_or.
+Optimizing module mfi_inst_st.
+Optimizing module mfi_inst_sub.
+Optimizing module mfi_isa_m32.
+Optimizing module minaret.
+<suppressed ~1 debug messages>
+Optimizing module testbench.
+
+16.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_inst_add'.
+Finding identical cells in module `\mfi_inst_and'.
+Finding identical cells in module `\mfi_inst_ld'.
+Finding identical cells in module `\mfi_inst_or'.
+Finding identical cells in module `\mfi_inst_st'.
+Finding identical cells in module `\mfi_inst_sub'.
+Finding identical cells in module `\mfi_isa_m32'.
+Finding identical cells in module `\minaret'.
+Finding identical cells in module `\testbench'.
+Removed a total of 0 cells.
+
+16.3. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $procdff$270 ($dff) from module minaret (D = $add$minaret.v:149$19_Y, Q = \mfi_order, rval = 0).
+Adding SRST signal on $procdff$269 ($dff) from module minaret (D = \inst_valid, Q = \mfi_valid, rval = 1'0).
+Handling const CLK on $memory\regs[9]$329 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[9]$329 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[9]$329 ($dff) from module minaret.
+Handling const CLK on $memory\regs[8]$327 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[8]$327 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[8]$327 ($dff) from module minaret.
+Handling const CLK on $memory\regs[7]$325 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[7]$325 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[7]$325 ($dff) from module minaret.
+Handling const CLK on $memory\regs[6]$323 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[6]$323 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[6]$323 ($dff) from module minaret.
+Handling const CLK on $memory\regs[5]$321 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[5]$321 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[5]$321 ($dff) from module minaret.
+Handling const CLK on $memory\regs[4]$319 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[4]$319 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[4]$319 ($dff) from module minaret.
+Handling const CLK on $memory\regs[3]$317 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[3]$317 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[3]$317 ($dff) from module minaret.
+Handling const CLK on $memory\regs[2]$315 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[2]$315 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[2]$315 ($dff) from module minaret.
+Handling const CLK on $memory\regs[1]$313 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[1]$313 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[1]$313 ($dff) from module minaret.
+Handling const CLK on $memory\regs[15]$341 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[15]$341 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[15]$341 ($dff) from module minaret.
+Handling const CLK on $memory\regs[14]$339 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[14]$339 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[14]$339 ($dff) from module minaret.
+Handling const CLK on $memory\regs[13]$337 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[13]$337 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[13]$337 ($dff) from module minaret.
+Handling const CLK on $memory\regs[12]$335 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[12]$335 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[12]$335 ($dff) from module minaret.
+Handling const CLK on $memory\regs[11]$333 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[11]$333 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[11]$333 ($dff) from module minaret.
+Handling const CLK on $memory\regs[10]$331 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[10]$331 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[10]$331 ($dff) from module minaret.
+Handling const CLK on $memory\regs[0]$311 ($dff) from module minaret (removing D path).
+Setting constant 1-bit at position 0 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 1 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 2 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 3 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 4 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 5 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 6 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 7 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 8 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 9 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 10 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 11 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 12 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 13 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 14 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 15 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 16 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 17 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 18 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 19 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 20 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 21 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 22 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 23 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 24 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 25 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 26 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 27 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 28 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 29 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 30 on $memory\regs[0]$311 ($dff) from module minaret.
+Setting constant 1-bit at position 31 on $memory\regs[0]$311 ($dff) from module minaret.
+
+16.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_inst_add..
+Finding unused cells or wires in module \mfi_inst_and..
+Finding unused cells or wires in module \mfi_inst_ld..
+Finding unused cells or wires in module \mfi_inst_or..
+Finding unused cells or wires in module \mfi_inst_st..
+Finding unused cells or wires in module \mfi_inst_sub..
+Finding unused cells or wires in module \mfi_isa_m32..
+Finding unused cells or wires in module \minaret..
+Finding unused cells or wires in module \testbench..
+Removed 3 unused cells and 3 unused wires.
+<suppressed ~4 debug messages>
+
+16.5. Rerunning OPT passes. (Removed registers in this run.)
+
+16.6. Executing OPT_EXPR pass (perform const folding).
+Optimizing module mfi_inst_add.
+Optimizing module mfi_inst_and.
+Optimizing module mfi_inst_ld.
+Optimizing module mfi_inst_or.
+Optimizing module mfi_inst_st.
+Optimizing module mfi_inst_sub.
+Optimizing module mfi_isa_m32.
+Optimizing module minaret.
+<suppressed ~31 debug messages>
+Optimizing module testbench.
+
+16.7. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mfi_inst_add'.
+Finding identical cells in module `\mfi_inst_and'.
+Finding identical cells in module `\mfi_inst_ld'.
+Finding identical cells in module `\mfi_inst_or'.
+Finding identical cells in module `\mfi_inst_st'.
+Finding identical cells in module `\mfi_inst_sub'.
+Finding identical cells in module `\mfi_isa_m32'.
+Finding identical cells in module `\minaret'.
+<suppressed ~6 debug messages>
+Finding identical cells in module `\testbench'.
+Removed a total of 2 cells.
+
+16.8. Executing OPT_DFF pass (perform DFF optimizations).
+
+16.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mfi_inst_add..
+Finding unused cells or wires in module \mfi_inst_and..
+Finding unused cells or wires in module \mfi_inst_ld..
+Finding unused cells or wires in module \mfi_inst_or..
+Finding unused cells or wires in module \mfi_inst_st..
+Finding unused cells or wires in module \mfi_inst_sub..
+Finding unused cells or wires in module \mfi_isa_m32..
+Finding unused cells or wires in module \minaret..
+Finding unused cells or wires in module \testbench..
+Removed 0 unused cells and 28 unused wires.
+<suppressed ~1 debug messages>
+
+16.10. Finished fast OPT passes.
+
+17. Executing CHECK pass (checking for obvious problems).
+Checking module mfi_inst_add...
+Checking module mfi_inst_and...
+Checking module mfi_inst_ld...
+Checking module mfi_inst_or...
+Checking module mfi_inst_st...
+Checking module mfi_inst_sub...
+Checking module mfi_isa_m32...
+Checking module minaret...
+Checking module testbench...
+Found and reported 0 problems.
+
+18. Executing HIERARCHY pass (managing design hierarchy).
+
+18.1. Analyzing design hierarchy..
+Top module:  \testbench
+Used module:     \minaret
+Used module:     \mfi_isa_m32
+Used module:         \mfi_inst_add
+Used module:         \mfi_inst_and
+Used module:         \mfi_inst_ld
+Used module:         \mfi_inst_or
+Used module:         \mfi_inst_st
+Used module:         \mfi_inst_sub
+
+18.2. Analyzing design hierarchy..
+Top module:  \testbench
+Used module:     \minaret
+Used module:     \mfi_isa_m32
+Used module:         \mfi_inst_add
+Used module:         \mfi_inst_and
+Used module:         \mfi_inst_ld
+Used module:         \mfi_inst_or
+Used module:         \mfi_inst_st
+Used module:         \mfi_inst_sub
+Removed 0 unused modules.
+Module testbench directly or indirectly contains formal properties -> setting "keep" attribute.
+
+19. Executing RTLIL backend.
+Output filename: ../model/design_nomem.il
+
+End of script. Logfile hash: 03b76c21ce, CPU: user 0.46s system 0.03s
+Yosys 0.9+4008 (git sha1 396ad17e, clang 12.0.0 -fPIC -Os)
+Time spent: 30% 8x opt_clean (0 sec), 24% 3x check (0 sec), ...
