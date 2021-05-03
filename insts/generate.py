@@ -241,13 +241,13 @@ def inst_ret(inst, opcode):
         print("  wire [31:0] result = mfi_mem_rdata >> (8*(addr-spec_mem_addr));", file=f)
 
         assign(f, "spec_valid", "mfi_valid && !inst_padding && inst_opcode == 8'b %s" % opcode)
-        assign(f, "spec_src1_addr", "15")
+        assign(f, "spec_src3_addr", "15")
         assign(f, "spec_dest_addr", "15")
-        assign(f, "spec_dest_wdata", "mfi_src1_rdata + 4")
-        assign(f, "spec_mem_addr", "mfi_src1_rdata & ~3")
-        assign(f, "spec_mem_rmask", "4'b1111 << (mfi_src1_rdata-spec_mem_addr)" % width)
+        assign(f, "spec_dest_wdata", "mfi_src3_rdata + 4")
+        assign(f, "spec_mem_addr", "mfi_src3_rdata & ~3")
+        assign(f, "spec_mem_rmask", "4'b1111 << (mfi_src3_rdata-spec_mem_addr)" % width)
         assign(f, "spec_pc_wdata", "result")
-        assign(f, "spec_trap", "mfi_src1_rdata[1:0] != 0 || result[1:0] != 0")
+        assign(f, "spec_trap", "mfi_src3_rdata[1:0] != 0 || result[1:0] != 0")
 
         footer(f)
 
@@ -293,10 +293,11 @@ def inst_st(inst, opcode, width):
         assign(f, "spec_src1_addr", "inst_src1")
         if reg:
             assign(f, "spec_src2_addr", "inst_src2")
+        assign(f, "spec_src3_addr", "inst_dest")
         assign(f, "spec_dest_addr", "inst_dest")
         assign(f, "spec_mem_addr", "addr & ~3")
         assign(f, "spec_mem_wmask", "((1 << %d)-1) << (addr-spec_mem_addr)" % width)
-        assign(f, "spec_mem_wdata", "mfi_src2_rdata << (8*(addr-spec_mem_addr))")
+        assign(f, "spec_mem_wdata", "mfi_src3_rdata << (8*(addr-spec_mem_addr))")
         assign(f, "spec_pc_wdata", "mfi_pc_rdata + 4")
         assign(f, "spec_trap", "(addr & (%d-1)) != 0" % width)
 
@@ -331,12 +332,12 @@ def inst_mov(inst, opcode, expr, reg):
         print("  // %s instruction" % inst.upper(), file=f)
         src1 = "mfi_src1_rdata" if reg else "inst_imms"
         print("  wire cond = %s;" % expr, file=f)
-        print("  wire [31:0] result = cond ? %s : mfi_src2_rdata;" % src1, file=f)
+        print("  wire [31:0] result = cond ? %s : mfi_src3_rdata;" % src1, file=f)
 
         assign(f, "spec_valid", "mfi_valid && !inst_padding && inst_opcode == 8'b %s" % opcode)
         if reg:
             assign(f, "spec_src1_addr", "inst_src1")
-        assign(f, "spec_src2_addr", "inst_dest")
+        assign(f, "spec_src3_addr", "inst_dest")
         assign(f, "spec_dest_addr", "inst_dest")
         assign(f, "spec_dest_wdata", "result")
         assign(f, "spec_pc_wdata", "mfi_pc_rdata + 4")
@@ -386,6 +387,22 @@ def inst_mfrc(inst, opcode):
         footer(f)
 
 def inst_flsl(inst, opcode, expr):
+    with open("inst_%s.v" % inst, "w") as f:
+        header(f, inst)
+        format_f(f)
+
+        print("", file=f)
+        print("  // %s instruction" % inst.upper(), file=f)
+        print("  wire [31:0] result = %s;" % expr, file=f)
+        assign(f, "spec_valid", "mfi_valid && !inst_padding && inst_opcode == 8'b %s" % opcode)
+        assign(f, "spec_src1_addr", "inst_src1")
+        assign(f, "spec_src2_addr", "inst_src2")
+        assign(f, "spec_src3_addr", "inst_rshift")
+        assign(f, "spec_dest_addr", "inst_dest")
+        assign(f, "spec_dest_wdata", "result")
+        assign(f, "spec_pc_wdata", "mfi_pc_rdata + 4")
+
+        footer(f)
 
 def inst_bra(inst, opcode, expr):
     with open("inst_%s.v" % inst, "w") as f:
@@ -414,20 +431,28 @@ def inst_call(inst, opcode, expr):
         print("  wire [31:0] result = mfi_pc_rdata + 4 * inst_offset;", file=f)
         print("  wire [31:0] nextpc = cond ? result : mfi_pc_rdata + 4;", file=f)
         assign(f, "spec_valid", "mfi_valid && !inst_padding && inst_opcode == 8'b %s" % opcode)
-        assign(f, "spec_src1_addr", "15")
+        assign(f, "spec_src3_addr", "15")
         assign(f, "spec_dest_addr", "15")
-        assign(f, "spec_dest_wdata", "cond ? mfi_src1_rdata - 4 : mfi_src1_rdata")
-        assign(f, "spec_mem_addr", "cond ? mfi_src1_rdata & ~3 : 0")
-        assign(f, "spec_mem_wmask", "cond ? 4'b1111 << (mfi_src1_rdata-spec_mem_addr) : 0" % width)
-        assign(f, "spec_mem_wdata", "cond ? mfi_src1_rdata << (8*(mfi_src1_rdata-spec_mem_addr)) : 0")
+        assign(f, "spec_dest_wdata", "cond ? mfi_src3_rdata - 4 : mfi_src3_rdata")
+        assign(f, "spec_mem_addr", "cond ? mfi_src3_rdata & ~3 : 0")
+        assign(f, "spec_mem_wmask", "cond ? 4'b1111 << (mfi_src3_rdata-spec_mem_addr) : 0" % width)
+        assign(f, "spec_mem_wdata", "cond ? mfi_src3_rdata << (8*(mfi_src3_rdata-spec_mem_addr)) : 0")
         assign(f, "spec_pc_wdata", "nextpc")
-        assign(f, "spec_trap", "mfi_src1_rdata[1:0] != 0 || nextpc[1:0] != 0")
+        assign(f, "spec_trap", "mfi_src3_rdata[1:0] != 0 || nextpc[1:0] != 0")
 
         footer(f)
 
 # MINA32 instructions (user mode)
 # No pop avoids double register write
 
+inst_alu("add", "00001000", "mfi_src1_rdata + mfi_src2_rdata", True)
+inst_alu("sub", "00001110", "mfi_src1_rdata - mfi_src2_rdata", True)
+inst_alu("and", "00011000", "mfi_src1_rdata & mfi_src2_rdata", True)
+inst_alu("or",  "00011001", "mfi_src1_rdata | mfi_src2_rdata", True)
+inst_ld("ld",  "01000000", 4, False)
+inst_st("st",  "01000011", 4, False)
+
+"""
 # Arithmetic Instructions
 inst_alu("addi",   "00000000", "mfi_src1_rdata + inst_imms", False)
 inst_alu("multi",  "00000001", "(mfi_src1_rdata + inst_imms) ^ 12341234", False)
@@ -535,6 +560,7 @@ inst_bra("bf", "10000000", "mfi_mcr_rdata[18] == 0")
 inst_call("call", "10001000", "1")
 inst_call("ct", "10001001", "mfi_mcr_rdata[18] == 1")
 inst_call("cf", "10001010", "mfi_mcr_rdata[18] == 0")
+"""
 
 # ISA listing and model
 

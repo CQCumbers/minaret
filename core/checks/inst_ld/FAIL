@@ -1,4 +1,0 @@
-Elapsed clock time [H:MM:SS (secs)]: 0:00:02 (2)
-Elapsed process time [H:MM:SS (secs)]: 0:00:02 (2)
-engine_0 (smtbmc boolector) returned FAIL
-counterexample trace: inst_ld/engine_0/trace.vcd
