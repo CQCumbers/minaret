@@ -20,6 +20,7 @@ module mfi_wrapper (
     minaret dut (
         .clk        (clock      ),
         .reset      (reset      ),
+        .trap       (trap       ),
         .imem_valid (imem_valid ),
         .imem_ready (imem_ready ),
         .imem_addr  (imem_addr  ),
