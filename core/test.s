@@ -10,14 +10,15 @@ _start:
     st  r1, [r0, 52]
     and r1, r1, r2
     st  r1, [r0, 56]
-    ld  r3, [r0, 56]
-    cmpi.eq r3, 526
+    ldb r3, [r0, 56]
+    cmpi.eq r3, 14
     bt  _exit
 _pool:
     addi r0, r0, 526
     addi r0, r0, 0
     addi r0, r0, 0
     addi r0, r0, 0
+    stop
 _exit:
     add r3, r3, r3
-    stop
+    bra _pool

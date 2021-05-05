@@ -42,8 +42,10 @@ module testbench;
         .dmem_rdata  (dmem_rdata )
 	);
 
-	reg [7:0] memory [0:256*1024-1];
-	initial $readmemh("test.hex", memory);
+	//reg [7:0] memory [0:256*1024-1];
+	//initial $readmemh("test.hex", memory);
+	reg [7:0] memory [0:1024*1024-1];
+	initial $readmemh("hello.hex", memory, 32'h000100d4);
 
 	assign imem_ready = 1;
     assign imem_rdata[ 7: 0] = memory[imem_addr + 0];
@@ -52,17 +54,25 @@ module testbench;
 	assign imem_rdata[31:24] = memory[imem_addr + 3];
 
 	assign dmem_ready = 1;
-    assign dmem_rdata[ 7: 0] = memory[dmem_addr + 0];
-    assign dmem_rdata[15: 8] = memory[dmem_addr + 1];
-    assign dmem_rdata[23:16] = memory[dmem_addr + 2];
-    assign dmem_rdata[31:24] = memory[dmem_addr + 3];
+    assign dmem_rdata[ 7: 0] = dmem_rmask[0] ? memory[dmem_addr + 0] : 0;
+    assign dmem_rdata[15: 8] = dmem_rmask[1] ? memory[dmem_addr + 1] : 0;
+    assign dmem_rdata[23:16] = dmem_rmask[2] ? memory[dmem_addr + 2] : 0;
+    assign dmem_rdata[31:24] = dmem_rmask[3] ? memory[dmem_addr + 3] : 0;
 
 	always @(posedge clk) begin
 		if (dmem_valid) begin
-            if (dmem_wmask[0]) memory[dmem_addr + 0] <= dmem_wdata[ 7: 0];
-            if (dmem_wmask[1]) memory[dmem_addr + 1] <= dmem_wdata[15: 8];
-            if (dmem_wmask[2]) memory[dmem_addr + 2] <= dmem_wdata[23:16];
-            if (dmem_wmask[3]) memory[dmem_addr + 3] <= dmem_wdata[31:24];
+            case (dmem_addr)
+                32'hffffff04: begin
+                    $write("%c", dmem_wdata);
+					$fflush();
+                end
+                default: begin
+                    if (dmem_wmask[0]) memory[dmem_addr + 0] <= dmem_wdata[ 7: 0];
+                    if (dmem_wmask[1]) memory[dmem_addr + 1] <= dmem_wdata[15: 8];
+                    if (dmem_wmask[2]) memory[dmem_addr + 2] <= dmem_wdata[23:16];
+                    if (dmem_wmask[3]) memory[dmem_addr + 3] <= dmem_wdata[31:24];
+                end
+            endcase
 		end
 	end
 
