@@ -15,7 +15,6 @@ module mfi_wrapper (
 	(* keep *) wire [31:0] dmem_addr;
 	(* keep *) wire [ 3:0] dmem_wmask;
 	(* keep *) wire [31:0] dmem_wdata;
-	(* keep *) wire [ 3:0] dmem_rmask;
 
     minaret dut (
         .clk        (clock      ),
@@ -30,7 +29,6 @@ module mfi_wrapper (
         .dmem_addr  (dmem_addr  ),
         .dmem_wmask (dmem_wmask ),
         .dmem_wdata (dmem_wdata ),
-        .dmem_rmask (dmem_rmask ),
         .dmem_rdata (dmem_rdata ),
         `MFI_CONN
     );

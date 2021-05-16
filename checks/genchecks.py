@@ -135,7 +135,7 @@ def check_inst(inst):
                 : [options]
                 : mode bmc
                 : append @append@
-                : tbtop wrapper.uut
+                : tbtop wrapper.dut
                 : depth @depth_plus@
                 :
                 : [engines]
@@ -225,7 +225,7 @@ def check_cons(check, start=None, trig=None, depth=None):
                 : [options]
                 : mode bmc
                 : append @append@
-                : tbtop wrapper.uut
+                : tbtop wrapper.dut
                 : depth @depth_plus@
                 :
                 : [engines]

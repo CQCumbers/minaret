@@ -13,7 +13,8 @@ module mfi_causal_check (
             if (check) begin
                 if (mfi_valid && mfi_order > inst_order &&
                         (register_index == mfi_src1_addr ||
-                        register_index == mfi_src2_addr)) begin
+                         register_index == mfi_src2_addr ||
+                         register_index == mfi_src3_addr)) begin
                     found_non_causal = 1;
                 end
                 assume(register_index != 0);
@@ -24,7 +25,8 @@ module mfi_causal_check (
             end else begin
                 if (mfi_valid && mfi_order > inst_order &&
                         (register_index == mfi_src1_addr ||
-                        register_index == mfi_src2_addr)) begin
+                         register_index == mfi_src2_addr ||
+                         register_index == mfi_src3_addr)) begin
                     found_non_causal = 1;
                 end
             end

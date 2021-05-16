@@ -22,7 +22,6 @@ module testbench;
 	wire [31:0] dmem_addr;
 	wire [ 3:0] dmem_wmask;
 	wire [31:0] dmem_wdata;
-	wire [ 3:0] dmem_rmask;
 	wire [31:0] dmem_rdata;
 
 	minaret dut (
@@ -38,14 +37,11 @@ module testbench;
         .dmem_addr   (dmem_addr  ),
         .dmem_wmask  (dmem_wmask ),
         .dmem_wdata  (dmem_wdata ),
-        .dmem_rmask  (dmem_rmask ),
         .dmem_rdata  (dmem_rdata )
 	);
 
-	//reg [7:0] memory [0:256*1024-1];
-	//initial $readmemh("test.hex", memory);
 	reg [7:0] memory [0:1024*1024-1];
-	initial $readmemh("hello.hex", memory, 32'h000100d4);
+	initial $readmemh("hello.hex", memory);
 
 	assign imem_ready = 1;
     assign imem_rdata[ 7: 0] = memory[imem_addr + 0];
@@ -54,10 +50,10 @@ module testbench;
 	assign imem_rdata[31:24] = memory[imem_addr + 3];
 
 	assign dmem_ready = 1;
-    assign dmem_rdata[ 7: 0] = dmem_rmask[0] ? memory[dmem_addr + 0] : 0;
-    assign dmem_rdata[15: 8] = dmem_rmask[1] ? memory[dmem_addr + 1] : 0;
-    assign dmem_rdata[23:16] = dmem_rmask[2] ? memory[dmem_addr + 2] : 0;
-    assign dmem_rdata[31:24] = dmem_rmask[3] ? memory[dmem_addr + 3] : 0;
+    assign dmem_rdata[ 7: 0] = memory[dmem_addr + 0];
+    assign dmem_rdata[15: 8] = memory[dmem_addr + 1];
+    assign dmem_rdata[23:16] = memory[dmem_addr + 2];
+    assign dmem_rdata[31:24] = memory[dmem_addr + 3];
 
 	always @(posedge clk) begin
 		if (dmem_valid) begin

@@ -2,7 +2,7 @@ module mfi_pc_bwd_check (
     input clock, reset, check,
     `MFI_INPUTS
 );
-    `mfi_const_rand_reg [31:0] inst_order;
+    `mf_const_rand_reg [31:0] inst_order;
     reg [31:0] expect_pc;
     reg expect_pc_valid = 0;
 
