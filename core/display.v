@@ -1,8 +1,9 @@
 `default_nettype none
+`define CLKS_PER_PIX 3
 
 // adapted from Project F
 module display (
-    input clk, reset,
+    input clk, button,
     inout hdmi_i2c_scl,
     inout hdmi_i2c_sda,
 
@@ -26,18 +27,22 @@ localparam VS_END = VS_STA + 2;   // sync ends
 localparam SCREEN = 524;          // last line on screen (after back porch)
 
 // screen position
-reg [15:0] pix_clk;
+reg pix_clk;
+reg [ 7:0] pix_cnt;
 reg [ 9:0] sx, sy;
+wire reset = !button;
 
 always @(posedge clk) begin
-    pix_clk <= pix_clk + 1;
+    pix_cnt <= pix_cnt + 1;
     if (reset) begin
+        pix_cnt <= 0;
         pix_clk <= 0;
         sx <= 0;
         sy <= 0;
     end else
-    if (pix_clk >= 9) begin
-        pix_clk <= 0;
+    if (pix_cnt >= `CLKS_PER_PIX) begin
+        pix_clk <= ~pix_clk;
+        pix_cnt <= 0;
         sx <= sx + 1;
         if (sx == LINE) begin
             sx <= 0;
@@ -52,12 +57,12 @@ wire hsync = ~(sx >= HS_STA && sx < HS_END);
 wire vsync = ~(sx >= VS_STA && sx < VS_END);
 
 // color data signals
-wire [7:0] vga_r = !de ? 4'h0 : sx[4] ^ sy[4] ? 4'hf : 4'h0;
-wire [7:0] vga_g = !de ? 4'h0 : sx[4] ^ sy[4] ? 4'h8 : 4'h8;
-wire [7:0] vga_b = !de ? 4'h0 : sx[4] ^ sy[4] ? 4'h0 : 4'hf;
+wire [7:0] vga_r = !de ? 8'h00 : sx[4] ^ sy[4] ? 8'hff : 8'h00;
+wire [7:0] vga_g = !de ? 8'h00 : sx[4] ^ sy[4] ? 8'h80 : 8'h80;
+wire [7:0] vga_b = !de ? 8'h00 : sx[4] ^ sy[4] ? 8'h00 : 8'hff;
 
 // connect video generator
-assign hdmi_tx_pclk = pix_clk > 4;
+assign hdmi_tx_pclk = pix_clk;
 assign hdmi_tx_data = {vga_r, vga_g, vga_b};
 assign hdmi_tx_de = de;
 assign {hdmi_tx_vs, hdmi_tx_hs} = {vsync, hsync};
@@ -66,28 +71,34 @@ assign {hdmi_tx_vs, hdmi_tx_hs} = {vsync, hsync};
 reg [3:0] cmd_idx;
 reg [7:0] i2c_addr;
 reg [7:0] i2c_data;
-wire valid = cmd_idx < 10;
+wire valid = 1'b1; //cmd_idx < 13;
 wire ready;
 
 always @* begin
     case (cmd_idx)
         // fixed registers
-         0: {i2c_addr, i2c_data} = 16'h9803;
-         1: {i2c_addr, i2c_data} = 16'h9ae0;
-         2: {i2c_addr, i2c_data} = 16'h9c30;
-         3: {i2c_addr, i2c_data} = 16'h9d61;
-         4: {i2c_addr, i2c_data} = 16'ha2a4;
-         5: {i2c_addr, i2c_data} = 16'ha3a4;
-         6: {i2c_addr, i2c_data} = 16'he0d0;
-         7: {i2c_addr, i2c_data} = 16'hf900;
+        0:  {i2c_addr, i2c_data} = 16'h9803;
+        1:  {i2c_addr, i2c_data} = 16'h9ae0;
+        2:  {i2c_addr, i2c_data} = 16'h9c30;
+        3:  {i2c_addr, i2c_data} = 16'h9d61;
+        4:  {i2c_addr, i2c_data} = 16'ha2a4;
+        5:  {i2c_addr, i2c_data} = 16'ha3a4;
+        6:  {i2c_addr, i2c_data} = 16'he0d0;
+        7:  {i2c_addr, i2c_data} = 16'hf900;
         // input/output video format
-         8: {i2c_addr, i2c_data} = 16'h1500;
-         9: {i2c_addr, i2c_data} = 16'h1630;
+        8:  {i2c_addr, i2c_data} = 16'h1500;
+        9:  {i2c_addr, i2c_data} = 16'h1670;
+        10: {i2c_addr, i2c_data} = 16'h1846;
+        // power control
+        11: {i2c_addr, i2c_data} = 16'h4110;
+        12: {i2c_addr, i2c_data} = 16'haf04;
+        default: {i2c_addr, i2c_data} = 27'h9803;
     endcase
 end
 
 always @(posedge clk) begin
-    cmd_idx <= cmd_idx + ready;
+    if (ready & valid)
+        cmd_idx <= cmd_idx + 1;
     if (reset) cmd_idx <= 0;
 end
 
