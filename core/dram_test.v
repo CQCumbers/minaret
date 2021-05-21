@@ -1,62 +1,56 @@
+`default_nettype none
+
 module dram_test (
-    input clk, button,
-    output [14:0] dram_addr,
-    output [ 2:0] dram_bank,
-    inout  [15:0] dram_data,
-    output        dram_casn,
-    output        dram_cke,
-    output        dram_clk,
-    output        dram_csn,
-    output [ 1:0] dram_mask,
-    output [ 1:0] dram_stb,
-    output        dram_odt,
-    output        dram_rasn,
-    output        dram_rstn,
-    output        dram_wen
+    input  wire        clk_in,
+    output wire [14:0] dram_addr,
+    output wire [ 2:0] dram_bank,
+    inout  wire [15:0] dram_data,
+    output wire        dram_casn,
+    output wire        dram_cke,
+    output wire        dram_clk,
+    output wire        dram_csn,
+    output wire [ 1:0] dram_mask,
+    output wire [ 1:0] dram_stb,
+    output wire        dram_odt,
+    output wire        dram_rasn,
+    output wire        dram_rstn,
+    output wire        dram_wen
 );
 
-reg valid;
-reg wmask;
-reg read;
-reg [31:0] addr;
-reg [127:0] counter;
+reg valid = 1'b0;
+reg wmask = 1'b0;
+reg read  = 1'b0;
+reg [127:0] counter = 0;
+reg [127:0] wdata   = 0;
 
 wire ready;
-reg  [127:0] wdata;
 wire [127:0] rdata;
+wire [ 31:0] addr = 0;
 
 // alternate reads/writes
 always @(posedge clk) begin
-    if (!button) begin
-        valid <= 1'b0;
-        read  <= 1'b0;
-        counter <= 0;
+    valid <= 1'b1;
+    if (!read) begin
+        wmask <= 1'b1;
+        //wdata <= counter + 12345678;
+        wdata <= 128'h0123456789abcdefdeadbeefabad1dea;
+        if (valid & ready) begin
+            valid <= 1'b0;
+            read <= 1'b1;
+        end
     end else begin
-	     //counter <= counter + 1;
-        valid <= 1'b1;
-        addr <= 32'h00000100;
-        if (!read) begin
-            wmask <= 1'b1;
-            //wdata <= counter + 12345678;
-				wdata <= 128'h0123456789abcdefdeadbeefabad1dea;
-            if (valid & ready) begin
-                valid <= 1'b0;
-                read <= 1'b1;
-            end
-        end else begin
-            wmask <= 1'b0;
-            if (valid & ready) begin
-                valid <= 1'b0;
-					 counter <= rdata;
-                read <= 1'b0;
-            end
+        wmask <= 1'b0;
+        if (valid & ready) begin
+            valid <= 1'b0;
+            counter <= rdata;
+            read <= 1'b0;
         end
     end
 end
 
 dram_control dram (
     .clk       (clk       ),
-    .reset     (!button   ),
+    .clk_90    (clk_90    ),
     .dram_addr (dram_addr ),
     .dram_bank (dram_bank ),
     .dram_data (dram_data ),

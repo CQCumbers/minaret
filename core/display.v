@@ -1,17 +1,17 @@
 `default_nettype none
-`define CLKS_PER_PIX 3
 
 // adapted from Project F
-module display (
-    input clk, button,
-    inout hdmi_i2c_scl,
-    inout hdmi_i2c_sda,
-
-    output        hdmi_tx_pclk,
-    output [23:0] hdmi_tx_data,
-    output        hdmi_tx_de,
-    output        hdmi_tx_hs,
-    output        hdmi_tx_vs
+module display #(
+    parameter CLKS_PER_PIX = 4
+) (
+    input wire         clk,
+    inout wire         hdmi_i2c_scl,
+    inout wire         hdmi_i2c_sda,
+    output wire        hdmi_tx_pclk,
+    output wire [23:0] hdmi_tx_data,
+    output wire        hdmi_tx_de,
+    output wire        hdmi_tx_hs,
+    output wire        hdmi_tx_vs
 );
 
 // horizontal timings
@@ -27,21 +27,13 @@ localparam VS_END = VS_STA + 2;   // sync ends
 localparam SCREEN = 524;          // last line on screen (after back porch)
 
 // screen position
-reg pix_clk;
-reg [ 7:0] pix_cnt;
-reg [ 9:0] sx, sy;
-wire reset = !button;
+reg [7:0] pix_cnt = 0;
+reg [9:0] sx = 0;
+reg [9:0] sy = 0;
 
 always @(posedge clk) begin
     pix_cnt <= pix_cnt + 1;
-    if (reset) begin
-        pix_cnt <= 0;
-        pix_clk <= 0;
-        sx <= 0;
-        sy <= 0;
-    end else
-    if (pix_cnt >= `CLKS_PER_PIX) begin
-        pix_clk <= ~pix_clk;
+    if (pix_cnt == CLKS_PER_PIX - 1) begin
         pix_cnt <= 0;
         sx <= sx + 1;
         if (sx == LINE) begin
@@ -53,25 +45,26 @@ end
 
 // timing signals
 wire de = (sx <= HA_END && sy <= VA_END);
-wire hsync = ~(sx >= HS_STA && sx < HS_END);
-wire vsync = ~(sx >= VS_STA && sx < VS_END);
+wire hsync = !(sx >= HS_STA && sx < HS_END);
+wire vsync = !(sx >= VS_STA && sx < VS_END);
+
+assign hdmi_tx_pclk = sx[0];
+assign hdmi_tx_de = de;
+assign hdmi_tx_vs = vsync;
+assign hdmi_tx_hs = hsync;
 
 // color data signals
 wire [7:0] vga_r = !de ? 8'h00 : sx[4] ^ sy[4] ? 8'hff : 8'h00;
 wire [7:0] vga_g = !de ? 8'h00 : sx[4] ^ sy[4] ? 8'h80 : 8'h80;
 wire [7:0] vga_b = !de ? 8'h00 : sx[4] ^ sy[4] ? 8'h00 : 8'hff;
 
-// connect video generator
-assign hdmi_tx_pclk = pix_clk;
 assign hdmi_tx_data = {vga_r, vga_g, vga_b};
-assign hdmi_tx_de = de;
-assign {hdmi_tx_vs, hdmi_tx_hs} = {vsync, hsync};
 
 // configure over i2c
-reg [3:0] cmd_idx;
-reg [7:0] i2c_addr;
-reg [7:0] i2c_data;
-wire valid = 1'b1; //cmd_idx < 13;
+reg [ 3:0] cmd_idx  = 0;
+reg [ 7:0] i2c_addr = 0;
+reg [ 7:0] i2c_data = 0;
+wire valid = cmd_idx < 13;
 wire ready;
 
 always @* begin
@@ -99,10 +92,9 @@ end
 always @(posedge clk) begin
     if (ready & valid)
         cmd_idx <= cmd_idx + 1;
-    if (reset) cmd_idx <= 0;
 end
 
-i2c_master controller (
+i2c_write hdmi_i2c (
     .clk    (clk          ),
     .reset  (reset        ),
     .scl    (hdmi_i2c_scl ),

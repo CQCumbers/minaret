@@ -1,58 +1,61 @@
 `default_nettype none
-`define CLKS_PER_BIT 499
 
-module i2c_master (
-    input clk, reset,
-    inout scl,
-    inout sda,
-
-    input       valid,
-    output      ready,
-    input [7:0] device,
-    input [7:0] addr,
-    input [7:0] data
+// i2c one-master, write-only
+module i2c_write #(
+    parameter CLKS_PER_BIT = 500
+) (
+    input  wire       clk,
+    inout  wire       scl,
+    inout  wire       sda,
+    input  wire       valid,
+    output wire       ready,
+    input  wire [7:0] device,
+    input  wire [7:0] addr,
+    input  wire [7:0] data
 );
 
-reg [27:0] buffer;
-reg [ 5:0] state;
-reg [15:0] i2c_cnt;
-wire waited = i2c_cnt >= `CLKS_PER_BIT;
+// i2c states
+localparam S_WIDTH = 6;
+localparam S_IDLE  = 0;
+localparam S_START = 2;
+localparam S_STOP  = S_START + 28 * 2;
+localparam S_WAIT  = S_START + 29 * 2;
 
-assign scl = ~state[ 0] ? 1'bz : 1'b0;
+reg [15:0] d_cnt = 0;
+reg [27:0] d_buf = -1;
+reg [ 5:0] state = S_WAIT;
+
+wire done = d_cnt >= CLKS_PER_BIT - 1;
+assign scl = !state[ 0] ? 1'bz : 1'b0;
 assign sda = buffer[27] ? 1'bz : 1'b0;
-assign ready = !state;
+assign ready = state == S_IDLE;
 
 always @(posedge clk) begin
-    i2c_cnt <= i2c_cnt + 1;
-    if (reset) begin
-        i2c_cnt <= 0;
-        buffer <= -1;
-        state <= 6'd60;
-    end else
+    d_cnt <= d_cnt + 1;
     case (state)
-        6'd00:  // send start signal
+        S_IDLE:  // send start signal
         if (valid) begin
-            i2c_cnt <= 0;
-            buffer <= {1'b0, device, 1'b1,
+            d_cnt <= 0;
+            d_buf <= {1'b0, device, 1'b1,
                 addr, 1'b1, data, 1'b1};
-            state <= 2;
+            state <= S_START;
         end
-        6'd58:  // send stop signal
-        if (waited && scl) begin
-            i2c_cnt <= 0;
-            buffer <= -1;
-            state <= 6'd60;
+        S_STOP:  // send stop signal
+        if (done && scl) begin
+            d_cnt <= 0;
+            d_buf <= -1;
+            state <= S_WAIT;
         end
-        6'd60:  // wait before ready
-        if (waited) begin
-            i2c_cnt <= 0;
-            state <= 6'd00;
+        S_WAIT:  // wait before ready
+        if (done) begin
+            d_cnt <= 0;
+            state <= S_IDLE;
         end
-        default:  // send data
-        if (waited && scl == ~state[0]) begin
-            i2c_cnt <= 0;
+        default: // send data bits
+        if (done && scl != state[0]) begin
+            d_cnt <= 0;
+            d_buf <= d_buf << scl;
             state <= state + 1;
-            if (scl) buffer <= buffer << 1;
         end
     endcase
 end
