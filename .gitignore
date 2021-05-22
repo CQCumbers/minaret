@@ -4,3 +4,4 @@
 /yosys
 /core/checks
 /core/quartus/
+*.bak

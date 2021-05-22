@@ -5,7 +5,7 @@ module dram_control (
     input  wire        clk,
     input  wire        clk_90,
     output reg  [14:0] dram_addr,
-    output reg  [ 2:0] dram_bank,k
+    output reg  [ 2:0] dram_bank,
     inout  wire [15:0] dram_data,
     output wire        dram_casn,
     output reg         dram_cke,
@@ -64,7 +64,7 @@ reg [31 :0] dram_cnt = 0;
 reg [31 :0] refr_cnt = 0;
 
 initial begin
-    ram_addr  = 15'h0000,
+    dram_addr = 15'h0000;
     dram_bank = 3'b000;
     dram_cke  = 1'b0;
     dram_clk  = 1'b0;

@@ -27,6 +27,14 @@ wire ready;
 wire [127:0] rdata;
 wire [ 31:0] addr = 0;
 
+// 100 MHz from 50 MHz
+wire clk, clk_90;
+pll dram_pll (
+    .inclk0 (clk_in ),
+    .c0     (clk    ),
+    .c1     (clk_90 )
+);
+
 // alternate reads/writes
 always @(posedge clk) begin
     valid <= 1'b1;
