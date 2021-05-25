@@ -15,7 +15,7 @@ set_time_format -unit ns -decimal_places 3
 #**************************************************************
 
 create_clock -name {altera_reserved_tck} -period 100.000 -waveform { 0.000 50.000 } [get_ports {altera_reserved_tck}]
-create_clock -name {clk_in} -period 20.000 -waveform { 0.000 10.000 } [get_ports {clk_in}]
+create_clock -name {clk} -period 20.000 -waveform { 0.000 10.000 } [get_ports {clk}]
 
 
 #**************************************************************
@@ -23,12 +23,12 @@ create_clock -name {clk_in} -period 20.000 -waveform { 0.000 10.000 } [get_ports
 #**************************************************************
 
 #derive_pll_clocks
-create_generated_clock -name data_clk \
+create_generated_clock -name dram_clk \
     -source [get_pins {dram_pll|*|*|pll1|inclk[0]}] \
-    -multiply_by 2 [get_pins {dram_pll|*|*|pll1|clk[0]}]
-create_generated_clock -name shifted_clk \
+    -multiply_by 1 [get_pins {dram_pll|*|*|pll1|clk[0]}]
+create_generated_clock -name shift_clk \
     -source [get_pins {dram_pll|*|*|pll1|inclk[0]}] \
-    -multiply_by 2 -phase 90 [get_pins {dram_pll|*|*|pll1|clk[1]}]
+    -multiply_by 1 -phase 90 [get_pins {dram_pll|*|*|pll1|clk[1]}]
 create_generated_clock -name output_clk \
     -source [get_pins {dram_pll|*|*|pll1|clk[1]}] \
     [get_ports {dram_stb*}]
@@ -74,10 +74,10 @@ set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}]
 # Set False Path
 #**************************************************************
 
-set_false_path -setup -rise_from [get_clocks {data_clk}] -fall_to [get_clocks {output_clk}]
-set_false_path -setup -fall_from [get_clocks {data_clk}] -rise_to [get_clocks {output_clk}]
-set_false_path -hold -rise_from [get_clocks {data_clk}] -fall_to [get_clocks {output_clk}]
-set_false_path -hold -fall_from [get_clocks {data_clk}] -rise_to [get_clocks {output_clk}]
+set_false_path -setup -rise_from [get_clocks {dram_clk}] -fall_to [get_clocks {output_clk}]
+set_false_path -setup -fall_from [get_clocks {dram_clk}] -rise_to [get_clocks {output_clk}]
+set_false_path -hold -rise_from [get_clocks {dram_clk}] -fall_to [get_clocks {output_clk}]
+set_false_path -hold -fall_from [get_clocks {dram_clk}] -rise_to [get_clocks {output_clk}]
 
 
 #**************************************************************

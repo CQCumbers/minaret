@@ -1,7 +1,7 @@
 `default_nettype none
 
 module dram_test (
-    input  wire        clk_in,
+    input  wire        clk,
     output wire [14:0] dram_addr,
     output wire [ 2:0] dram_bank,
     inout  wire [15:0] dram_data,
@@ -17,61 +17,57 @@ module dram_test (
     output wire        dram_wen
 );
 
+// Generate test pattern
+
 reg valid = 1'b0;
 reg wmask = 1'b0;
 reg read  = 1'b0;
-reg [127:0] counter = 0;
-reg [127:0] wdata   = 0;
+reg [127:0] count = 0;
+reg [127:0] wdata = 0;
+reg [ 31:0] addr  = 0;
 
 wire ready;
 wire [127:0] rdata;
-wire [ 31:0] addr = 0;
 
-// 100 MHz from 50 MHz
-wire clk, clk_90;
-pll dram_pll (
-    .inclk0 (clk_in ),
-    .c0     (clk    ),
-    .c1     (clk_90 )
-);
-
-// alternate reads/writes
 always @(posedge clk) begin
     valid <= 1'b1;
     if (!read) begin
         wmask <= 1'b1;
-        //wdata <= counter + 12345678;
-        wdata <= 128'h0123456789abcdefdeadbeefabad1dea;
+        wdata <= count + 12345678;
+        //wdata <= 128'h0123456789abcdefdeadbeefabad1dea;
         if (valid & ready) begin
             valid <= 1'b0;
-            read <= 1'b1;
+            read  <= 1'b1;
         end
     end else begin
         wmask <= 1'b0;
         if (valid & ready) begin
             valid <= 1'b0;
-            counter <= rdata;
-            read <= 1'b0;
+            count <= rdata;
+            read  <= 1'b0;
         end
     end
 end
 
+// Compute DRAM commands
+
+wire dfi_wmask;
+wire [31:0] dfi_rdata;
+wire [31:0] dfi_wdata;
+
 dram_control dram (
     .clk       (clk       ),
-    .clk_90    (clk_90    ),
-    .dram_addr (dram_addr ),
-    .dram_bank (dram_bank ),
-    .dram_data (dram_data ),
-    .dram_casn (dram_casn ),
-    .dram_cke  (dram_cke  ),
-    .dram_clk  (dram_clk  ),
-    .dram_csn  (dram_csn  ),
-    .dram_mask (dram_mask ),
-    .dram_stb  (dram_stb  ),
-    .dram_odt  (dram_odt  ),
-    .dram_rasn (dram_rasn ),
-    .dram_rstn (dram_rstn ),
-    .dram_wen  (dram_wen  ),
+    .dfi_addr  (dram_addr ),
+    .dfi_bank  (dram_bank ),
+    .dfi_rdata (dfi_rdata ),
+    .dfi_wdata (dfi_wdata ),
+    .dfi_wmask (dfi_wmask ),
+    .dfi_casn  (dram_casn ),
+    .dfi_cke   (dram_cke  ),
+    .dfi_csn   (dram_csn  ),
+    .dfi_rasn  (dram_rasn ),
+    .dfi_rstn  (dram_rstn ),
+    .dfi_wen   (dram_wen  ),
     .valid     (valid     ),
     .ready     (ready     ),
     .addr      (addr      ),
@@ -79,5 +75,31 @@ dram_control dram (
     .wdata     (wdata     ),
     .rdata     (rdata     )
 );
+
+// Physical Interface
+
+wire shift_clk;
+wire [ 3:0] dfi_stb;
+wire [15:0] dfi_oe = {16{dfi_wmask}};
+
+pll dram_pll (
+    .inclk0 (clk       ),
+    .c0     (dram_clk  ),
+    .c1     (shift_clk )
+);
+
+ddio dram_ddio (
+    .inclock  (shift_clk ),
+    .outclock (clk       ),
+    .dout     (dfi_rdata ),
+    .din      (dfi_wdata ),
+    .pad_io   (dram_data ),
+    .oe       (dfi_oe    )
+);
+
+assign dram_mask = 2'b00;
+assign dram_odt  = 1'b0;
+assign dram_stb[0] = dfi_wmask && shift_clk;
+assign dram_stb[1] = dfi_wmask && shift_clk;
 
 endmodule

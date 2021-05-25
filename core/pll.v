@@ -97,18 +97,18 @@ module pll (
 		altpll_component.bandwidth_type = "AUTO",
 		altpll_component.clk0_divide_by = 1,
 		altpll_component.clk0_duty_cycle = 50,
-		altpll_component.clk0_multiply_by = 2,
+		altpll_component.clk0_multiply_by = 1,
 		altpll_component.clk0_phase_shift = "0",
 		altpll_component.clk1_divide_by = 1,
 		altpll_component.clk1_duty_cycle = 50,
-		altpll_component.clk1_multiply_by = 2,
-		altpll_component.clk1_phase_shift = "2500",
+		altpll_component.clk1_multiply_by = 1,
+		altpll_component.clk1_phase_shift = "5000",
 		altpll_component.compensate_clock = "CLK0",
 		altpll_component.inclk0_input_frequency = 20000,
 		altpll_component.intended_device_family = "MAX 10",
 		altpll_component.lpm_hint = "CBX_MODULE_PREFIX=pll",
 		altpll_component.lpm_type = "altpll",
-		altpll_component.operation_mode = "NORMAL",
+		altpll_component.operation_mode = "SOURCE_SYNCHRONOUS",
 		altpll_component.pll_type = "AUTO",
 		altpll_component.port_activeclock = "PORT_UNUSED",
 		altpll_component.port_areset = "PORT_UNUSED",
@@ -179,8 +179,8 @@ endmodule
 // Retrieval info: PRIVATE: DIV_FACTOR1 NUMERIC "1"
 // Retrieval info: PRIVATE: DUTY_CYCLE0 STRING "50.00000000"
 // Retrieval info: PRIVATE: DUTY_CYCLE1 STRING "50.00000000"
-// Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "100.000000"
-// Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE1 STRING "100.000000"
+// Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "50.000000"
+// Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE1 STRING "50.000000"
 // Retrieval info: PRIVATE: EXPLICIT_SWITCHOVER_COUNTER STRING "0"
 // Retrieval info: PRIVATE: EXT_FEEDBACK_RADIO STRING "0"
 // Retrieval info: PRIVATE: GLOCKED_COUNTER_EDIT_CHANGED STRING "1"
@@ -201,13 +201,13 @@ endmodule
 // Retrieval info: PRIVATE: LVDS_MODE_DATA_RATE STRING "Not Available"
 // Retrieval info: PRIVATE: LVDS_MODE_DATA_RATE_DIRTY NUMERIC "0"
 // Retrieval info: PRIVATE: LVDS_PHASE_SHIFT_UNIT0 STRING "deg"
-// Retrieval info: PRIVATE: LVDS_PHASE_SHIFT_UNIT1 STRING "deg"
+// Retrieval info: PRIVATE: LVDS_PHASE_SHIFT_UNIT1 STRING "ps"
 // Retrieval info: PRIVATE: MIG_DEVICE_SPEED_GRADE STRING "Any"
 // Retrieval info: PRIVATE: MIRROR_CLK0 STRING "0"
 // Retrieval info: PRIVATE: MIRROR_CLK1 STRING "0"
-// Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "2"
-// Retrieval info: PRIVATE: MULT_FACTOR1 NUMERIC "2"
-// Retrieval info: PRIVATE: NORMAL_MODE_RADIO STRING "1"
+// Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "1"
+// Retrieval info: PRIVATE: MULT_FACTOR1 NUMERIC "1"
+// Retrieval info: PRIVATE: NORMAL_MODE_RADIO STRING "0"
 // Retrieval info: PRIVATE: OUTPUT_FREQ0 STRING "100.00000000"
 // Retrieval info: PRIVATE: OUTPUT_FREQ1 STRING "100.00000000"
 // Retrieval info: PRIVATE: OUTPUT_FREQ_MODE0 STRING "0"
@@ -241,7 +241,7 @@ endmodule
 // Retrieval info: PRIVATE: SPREAD_FREQ_UNIT STRING "KHz"
 // Retrieval info: PRIVATE: SPREAD_PERCENT STRING "0.500"
 // Retrieval info: PRIVATE: SPREAD_USE STRING "0"
-// Retrieval info: PRIVATE: SRC_SYNCH_COMP_RADIO STRING "0"
+// Retrieval info: PRIVATE: SRC_SYNCH_COMP_RADIO STRING "1"
 // Retrieval info: PRIVATE: STICKY_CLK0 STRING "1"
 // Retrieval info: PRIVATE: STICKY_CLK1 STRING "1"
 // Retrieval info: PRIVATE: STICKY_CLK2 STRING "0"
@@ -260,17 +260,17 @@ endmodule
 // Retrieval info: CONSTANT: BANDWIDTH_TYPE STRING "AUTO"
 // Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "1"
 // Retrieval info: CONSTANT: CLK0_DUTY_CYCLE NUMERIC "50"
-// Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "2"
+// Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "1"
 // Retrieval info: CONSTANT: CLK0_PHASE_SHIFT STRING "0"
 // Retrieval info: CONSTANT: CLK1_DIVIDE_BY NUMERIC "1"
 // Retrieval info: CONSTANT: CLK1_DUTY_CYCLE NUMERIC "50"
-// Retrieval info: CONSTANT: CLK1_MULTIPLY_BY NUMERIC "2"
-// Retrieval info: CONSTANT: CLK1_PHASE_SHIFT STRING "2500"
+// Retrieval info: CONSTANT: CLK1_MULTIPLY_BY NUMERIC "1"
+// Retrieval info: CONSTANT: CLK1_PHASE_SHIFT STRING "5000"
 // Retrieval info: CONSTANT: COMPENSATE_CLOCK STRING "CLK0"
 // Retrieval info: CONSTANT: INCLK0_INPUT_FREQUENCY NUMERIC "20000"
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "MAX 10"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "altpll"
-// Retrieval info: CONSTANT: OPERATION_MODE STRING "NORMAL"
+// Retrieval info: CONSTANT: OPERATION_MODE STRING "SOURCE_SYNCHRONOUS"
 // Retrieval info: CONSTANT: PLL_TYPE STRING "AUTO"
 // Retrieval info: CONSTANT: PORT_ACTIVECLOCK STRING "PORT_UNUSED"
 // Retrieval info: CONSTANT: PORT_ARESET STRING "PORT_UNUSED"
@@ -327,7 +327,7 @@ endmodule
 // Retrieval info: GEN_FILE: TYPE_NORMAL pll.inc FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL pll.cmp FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL pll.bsf FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL pll_inst.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pll_inst.v FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL pll_bb.v FALSE
 // Retrieval info: LIB_FILE: altera_mf
 // Retrieval info: CBX_MODULE_PREFIX: ON
