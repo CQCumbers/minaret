@@ -66,7 +66,7 @@ initial begin
     dfi_bank  = 3'b000;
     dfi_cke   = 1'b0;
     dfi_rstn  = 1'b0;
-	 dfi_wmask = 1'b0;
+    dfi_wmask = 1'b0;
     ready     = 1'b0;
 end
 
@@ -174,28 +174,28 @@ always @(posedge clk) begin
         S_READ: begin
             // read dram to buffer
             if (dram_cnt == T_READ-1) begin
-				    dfi_rmask <= 1'b0;
+                dfi_rmask <= 1'b0;
                 ready <= 1'b1;
                 state <= S_IDLE;
             end
-				if (dram_cnt == T_CAS-1) begin
-				    dfi_rmask <= 1'b1;
-				end else if (dfi_rmask) begin
+            if (dram_cnt == T_CAS-1) begin
+                dfi_rmask <= 1'b1;
+            end else if (dfi_rmask) begin
                 dram_buf <= {dfi_rdata, dram_buf[127:32]};
-			   end
+            end
         end
         S_WRITE: begin
             // write buffer to dram
             if (dram_cnt == T_WRITE-1) begin
-				    dfi_wmask <= 1'b0;
+                dfi_wmask <= 1'b0;
                 ready <= 1'b1;
                 state <= S_IDLE;
             end
-				if (dram_cnt == T_CAS-1) begin
-				    dfi_wmask <= 1'b1;
-				end else if (dfi_wmask) begin
+            if (dram_cnt == T_CAS-1) begin
+                dfi_wmask <= 1'b1;
+            end else if (dfi_wmask) begin
                 dram_buf <= dram_buf[127:32];
-				end
+            end
         end
     endcase
 end

@@ -11,8 +11,7 @@ testbench.vvp: testbench.v minaret.v
 	chmod -x testbench.vvp
 
 test.hex: test.elf
-	$(TOOLCHAIN_PREFIX)/llvm-objcopy -O binary $< - \
-	| hexdump -v -e '/1 "%02x\n"' > test.hex
+	$(TOOLCHAIN_PREFIX)/llvm-objcopy -O ihex $^ $@
 
 test.elf: test.s
 	$(TOOLCHAIN_PREFIX)/clang $(CFLAGS) -o $@ $^

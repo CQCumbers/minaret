@@ -223,7 +223,7 @@ always @* begin
         `OP_NOP:    `CTRL(`A_NONE, `B_NONE, `ALU_ADD,  `YES, `ANY, `W_NONE, `S_WRITE, `BYTE)
         `OP_PCADDI: `CTRL(`A_PC,   `B_IMMS, `ALU_ADD,  `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_ADD:    `CTRL(`A_SRC1, `B_SRC2, `ALU_ADD,  `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
-        `OP_MULTI:  `CTRL(`A_SRC1, `B_SRC2, `ALU_MULT, `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
+        `OP_MULT:   `CTRL(`A_SRC1, `B_SRC2, `ALU_MULT, `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_SLT:    `CTRL(`A_SRC1, `B_SRC2, `ALU_LT,   `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_SLTU:   `CTRL(`A_SRC1, `B_SRC2, `ALU_LO,   `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_SUB:    `CTRL(`A_SRC1, `B_SRC2, `ALU_SUB,  `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
@@ -323,6 +323,7 @@ wire [31:0] B =
     B_src == `B_IMMB ? off << 2 : 0;
 wire [ 3:0] src3_addr =
     state_ty == `S_STORE ? dest_addr :
+	 state_ty == `S_WRITE ? dest_addr :
     state_ty == `S_SHIFT ? inst[11:8] : 15;
 
 // state machine
@@ -440,7 +441,7 @@ always @(posedge clk) begin
             pc <= next_pc;
             state <= `S_FETCH;
             case (wb_ty)
-                `W_MOVL: regs[dest_addr][15:0] <= mov;
+                `W_MOVL: regs[dest_addr] <= {src3[31:16], mov};
                 `W_MOVU: regs[dest_addr] <= mov << 16;
                 `W_DEST: regs[dest_addr] <= alu_out;
                 `W_TBIT: mcr[18] <= alu_out[0];
