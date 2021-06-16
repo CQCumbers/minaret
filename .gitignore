@@ -5,3 +5,4 @@
 /core/checks
 /core/quartus/
 *.bak
+bin2mif

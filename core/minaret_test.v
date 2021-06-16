@@ -1,3 +1,5 @@
+`default_nettype none
+
 module minaret_test (
     input wire clk
 );
