@@ -43,7 +43,7 @@ minaret cpu (
 
 // UART peripheral
 
-wire uart_sel   = dmem_addr[31:4] == 28'hffffff0;
+wire uart_sel   = dmem_addr[31:8] == 24'hffffff;
 wire uart_addr  = dmem_addr[2];
 wire uart_valid = uart_sel && dmem_valid;
 wire uart_wmask = dmem_wmask != 0;
@@ -68,9 +68,12 @@ wire ram_sel = dmem_addr <= 32'hffff;
 wire ram_wen = ram_sel && dmem_valid && dmem_wmask != 0;
 wire [13:0] ram_addr0 = imem_addr[15:2];
 wire [13:0] ram_addr1 = dmem_addr[15:2];
+wire [ 4:0] ram_shift = dmem_addr[1:0] << 3;
 wire [ 3:0] ram_wmask = dmem_wmask << dmem_addr[1:0];
+wire [31:0] ram_wdata = dmem_wdata << ram_shift;
 
-wire ram_ready = 1;
+reg ram_ready0 = 0;
+reg ram_ready1 = 0;
 wire [31:0] ram_rdata0;
 wire [31:0] ram_rdata1;
 
@@ -80,18 +83,23 @@ bram ram (
     .byteena_b (ram_wmask  ),
     .clock     (clk        ),
     .data_a    (0          ),
-    .data_b    (dmem_wdata ),
+    .data_b    (ram_wdata  ),
     .wren_a    (0          ),
     .wren_b    (ram_wen    ),
     .q_a       (ram_rdata0 ),
     .q_b       (ram_rdata1 )
 );
 
+always @(posedge clk) begin
+    ram_ready0 <= imem_valid;
+    ram_ready1 <= dmem_valid;
+end
+
 // Memory map
 
-assign imem_ready = 1;
+assign imem_ready = ram_ready0;
 assign imem_rdata = ram_rdata0;
-assign dmem_ready = uart_sel ? uart_ready : ram_ready;
-assign dmem_rdata = uart_sel ? uart_rdata : ram_rdata1;
+assign dmem_ready = uart_sel ? uart_ready : ram_ready1;
+assign dmem_rdata = uart_sel ? uart_rdata : ram_rdata1 >> ram_shift;
 
 endmodule

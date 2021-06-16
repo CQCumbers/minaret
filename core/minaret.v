@@ -339,7 +339,6 @@ always @(posedge clk) begin
     end else if (!trap)
     case (state)
         `S_FETCH: begin
-            imem_valid <= `YES;
             if (imem_valid & imem_ready) begin
                 imem_valid <= `NO;
                 inst <= imem_rdata;
@@ -375,6 +374,7 @@ always @(posedge clk) begin
                 `ALU_ROR:  alu_out <= {A, A} >> B[4:0];
             endcase
             if (cond[1] && cond[0] != mcr[18]) begin
+                imem_valid <= `YES;
                 pc <= next_pc;
                 state <= `S_FETCH;
             end else state <= state_ty;
@@ -418,6 +418,7 @@ always @(posedge clk) begin
             trap <= (alu_out & ~mask) != 0;
             if (dmem_valid & dmem_ready) begin
                 dmem_valid <= `NO;
+                imem_valid <= `YES;
                 pc <= next_pc;
                 state <= `S_FETCH;
             end
@@ -438,6 +439,7 @@ always @(posedge clk) begin
             end
         end
         `S_WRITE: begin
+            imem_valid <= `YES;
             pc <= next_pc;
             state <= `S_FETCH;
             case (wb_ty)
