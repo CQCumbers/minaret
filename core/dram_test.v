@@ -79,7 +79,6 @@ dram_control dram (
 // Physical Interface
 
 wire shift_clk;
-wire [ 3:0] dfi_stb;
 wire [15:0] dfi_oe = {16{dfi_wmask}};
 
 pll dram_pll (

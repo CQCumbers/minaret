@@ -333,7 +333,7 @@ always @(posedge clk) begin
         trap <= `NO;
         dmem_valid <= `NO;
         imem_valid <= `YES;
-        pc <= 32'h00000000;
+        pc <= 32'hffff0000;
         mcr <= 32'h00000f00;
         state <= `S_FETCH;
     end else if (!trap)
