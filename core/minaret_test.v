@@ -15,7 +15,15 @@ module minaret_test (
     output wire        dfi_odt,
     output wire        dfi_rasn,
     output wire        dfi_rstn,
-    output wire        dfi_wen
+    output wire        dfi_wen,
+
+    inout  wire        hdmi_i2c_scl,
+    inout  wire        hdmi_i2c_sda,
+    output wire        hdmi_tx_pclk,
+    output wire [23:0] hdmi_tx_data,
+    output wire        hdmi_tx_de,
+    output wire        hdmi_tx_hs,
+    output wire        hdmi_tx_vs
 );
 
 // Reset generator
@@ -58,6 +66,28 @@ minaret cpu (
     .dmem_rdata  (dmem_rdata )
 );
 
+// Display controller
+
+wire vmem_valid;
+wire vmem_ready;
+wire [16:0] vmem_addr;
+wire [31:0] vmem_rdata;
+
+display display (
+    .clk          (clk          ),
+    .hdmi_i2c_scl (hdmi_i2c_scl ),
+    .hdmi_i2c_sda (hdmi_i2c_sda ),
+    .hdmi_tx_pclk (hdmi_tx_pclk ),
+    .hdmi_tx_data (hdmi_tx_data ),
+    .hdmi_tx_de   (hdmi_tx_de   ),
+    .hdmi_tx_hs   (hdmi_tx_hs   ),
+    .hdmi_tx_vs   (hdmi_tx_vs   ),
+    .vmem_valid   (vmem_valid   ),
+    .vmem_ready   (vmem_ready   ),
+    .vmem_addr    (vmem_addr    ),
+    .vmem_rdata   (vmem_rdata   )
+);
+
 // UART peripheral
 
 wire uart_sel   = dmem_addr[31:8] == 24'hffffff;
@@ -81,15 +111,17 @@ uart uart (
 
 // BRAM peripheral
 
-wire bram_isel = imem_addr[31:12] == 20'hffff0;
-wire bram_dsel = dmem_addr[31:12] == 20'hffff0;
+wire bram_isel = imem_addr[31:17] == 15'h4000;
+wire bram_dsel = dmem_addr[31:17] == 15'h4000;
 wire bram_wen = bram_dsel && dmem_valid && dmem_wmask != 0;
 
-wire [ 9:0] bram_iaddr = imem_addr[11:2];
-wire [ 9:0] bram_daddr = dmem_addr[11:2];
-wire [ 4:0] bram_shift = dmem_addr[1:0] << 3;
+wire [14:0] bram_iaddr = bram_isel ? imem_addr[16:2] : vmem_addr[16:2];
+wire [14:0] bram_daddr = dmem_addr[16:2];
+
+wire [ 4:0] bram_ioffs = vmem_addr[1:0] << 3;
+wire [ 4:0] bram_doffs = dmem_addr[1:0] << 3;
 wire [ 3:0] bram_wmask = dmem_wmask << dmem_addr[1:0];
-wire [31:0] bram_wdata = dmem_wdata << bram_shift;
+wire [31:0] bram_wdata = dmem_wdata << bram_doffs;
 
 reg bram_iready = 0;
 reg bram_dready = 0;
@@ -110,7 +142,7 @@ bram bram (
 );
 
 always @(posedge clk) begin
-    bram_iready <= imem_valid;
+    bram_iready <= bram_isel ? imem_valid : vmem_valid;
     bram_dready <= dmem_valid;
 end
 
@@ -122,7 +154,7 @@ wire cache_mode = dram_dsel && dmem_valid;
 
 wire cache_valid = cache_mode ? 1 : imem_valid;
 wire [31:0] cache_addr  = cache_mode ? dmem_addr[25:0] : imem_addr[25:0];
-wire [ 3:0] cache_wmask = cache_mode ? dmem_wdata : 0;
+wire [ 3:0] cache_wmask = cache_mode ? dmem_wmask : 0;
 wire [31:0] cache_wdata = cache_mode ? dmem_wdata : 0;
 
 wire cache_ready;
@@ -216,7 +248,9 @@ assign dmem_ready = uart_sel  ? uart_ready  :
                     bram_dsel ? bram_dready :
                     dram_dsel ? dram_dready : 0;
 assign dmem_rdata = uart_sel  ? uart_rdata  :
-                    bram_dsel ? bram_drdata >> bram_shift :
+                    bram_dsel ? bram_drdata >> bram_doffs :
                     dram_dsel ? dram_drdata : 0;
+assign vmem_ready = bram_isel ? 0 : bram_iready;
+assign vmem_rdata = bram_isel ? 0 : bram_irdata >> bram_ioffs;
 
 endmodule

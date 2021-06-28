@@ -27,7 +27,7 @@ reg [ 5:0] state = S_WAIT;
 
 wire done = d_cnt >= CLKS_PER_BIT - 1;
 assign scl = !state[ 0] ? 1'bz : 1'b0;
-assign sda = buffer[27] ? 1'bz : 1'b0;
+assign sda =  d_buf[27] ? 1'bz : 1'b0;
 assign ready = state == S_IDLE;
 
 always @(posedge clk) begin

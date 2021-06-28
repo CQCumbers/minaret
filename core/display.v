@@ -4,14 +4,19 @@
 module display #(
     parameter CLKS_PER_PIX = 4
 ) (
-    input wire         clk,
-    inout wire         hdmi_i2c_scl,
-    inout wire         hdmi_i2c_sda,
+    input  wire        clk,
+    inout  wire        hdmi_i2c_scl,
+    inout  wire        hdmi_i2c_sda,
     output wire        hdmi_tx_pclk,
-    output wire [23:0] hdmi_tx_data,
-    output wire        hdmi_tx_de,
-    output wire        hdmi_tx_hs,
-    output wire        hdmi_tx_vs
+    output reg  [23:0] hdmi_tx_data,
+    output reg         hdmi_tx_de,
+    output reg         hdmi_tx_hs,
+    output reg         hdmi_tx_vs,
+
+    output reg         vmem_valid,
+    input  wire        vmem_ready,
+    output wire [16:0] vmem_addr,
+    input  wire [31:0] vmem_rdata
 );
 
 // horizontal timings
@@ -43,28 +48,54 @@ always @(posedge clk) begin
     end
 end
 
-// timing signals
-wire de = (sx <= HA_END && sy <= VA_END);
-wire hsync = !(sx >= HS_STA && sx < HS_END);
-wire vsync = !(sx >= VS_STA && sx < VS_END);
+// framebuffer
+localparam PAL_STA = 0;
+localparam PIX_STA = 256 * 4;
+localparam S_PAL = 0;
+localparam S_PIX = 1;
 
-assign hdmi_tx_pclk = sx[0];
-assign hdmi_tx_de = de;
-assign hdmi_tx_vs = vsync;
-assign hdmi_tx_hs = hsync;
+reg de, hsync, vsync;
+reg [23:0] color = 0;
+reg [16:0] pal = 0;
+reg [16:0] pix = 0;
+reg state = S_PIX;
 
-// color data signals
-wire [7:0] vga_r = !de ? 8'h00 : sx[4] ^ sy[4] ? 8'hff : 8'h00;
-wire [7:0] vga_g = !de ? 8'h00 : sx[4] ^ sy[4] ? 8'h80 : 8'h80;
-wire [7:0] vga_b = !de ? 8'h00 : sx[4] ^ sy[4] ? 8'h00 : 8'hff;
+initial vmem_valid = 1'b1;
+assign vmem_addr = state ? pix + PIX_STA : pal + PAL_STA;
+assign hdmi_tx_pclk = ~state;
 
-assign hdmi_tx_data = {vga_r, vga_g, vga_b};
+always @(posedge clk) begin
+    vmem_valid <= 1'b0;
+    case (state)
+        S_PAL: if (vmem_ready) begin
+            // output last pixel
+            vmem_valid <= 1'b1;
+            hdmi_tx_data <= vmem_rdata[23:0];
+            hdmi_tx_de <= de;
+            hdmi_tx_vs <= vsync;
+            hdmi_tx_hs <= hsync;
 
-// configure over i2c
-reg [ 3:0] cmd_idx  = 0;
-reg [ 7:0] i2c_addr = 0;
-reg [ 7:0] i2c_data = 0;
-wire valid = cmd_idx < 13;
+            // setup next pixel
+            pix <= sy[9:1] * 320 + sx[9:1];
+            if (sx > HA_END || sy > VA_END) pix <= 0;
+            de <= !(sx > HA_END || sy > VA_END);
+            hsync <= !(sx >= HS_STA && sx < HS_END);
+            vsync <= !(sy >= VS_STA && sy < VS_END);
+            state <= S_PIX;
+        end
+        S_PIX: if (vmem_ready) begin
+            vmem_valid <= 1'b1;
+            pal <= vmem_rdata[7:0] * 4;
+            state <= S_PAL;
+        end
+    endcase
+end
+
+// configure ADV7513
+reg [3:0] cmd_idx  = 0;
+reg [7:0] i2c_addr = 0;
+reg [7:0] i2c_data = 0;
+wire valid = 1'b1;
 wire ready;
 
 always @* begin
@@ -90,13 +121,14 @@ always @* begin
 end
 
 always @(posedge clk) begin
-    if (ready & valid)
+    if (ready & valid) begin
         cmd_idx <= cmd_idx + 1;
+        if (cmd_idx == 13) cmd_idx <= 0;
+    end
 end
 
 i2c_write hdmi_i2c (
     .clk    (clk          ),
-    .reset  (reset        ),
     .scl    (hdmi_i2c_scl ),
     .sda    (hdmi_i2c_sda ),
     .valid  (valid        ),
