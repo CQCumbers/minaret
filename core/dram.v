@@ -147,7 +147,7 @@ always @(posedge clk) begin
                 state <= S_REFRESH;
             end else
             // handle read/write reqs
-            if (valid) begin
+            if (valid & !ready) begin
                 cmd <= CMD_ACTIVE;
                 dfi_bank <= addr_bank;
                 dfi_addr <= addr_row;

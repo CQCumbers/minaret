@@ -13,7 +13,7 @@ module display #(
     output reg         hdmi_tx_hs,
     output reg         hdmi_tx_vs,
 
-    output reg         vmem_valid,
+    output wire        vmem_valid,
     input  wire        vmem_ready,
     output wire [16:0] vmem_addr,
     input  wire [31:0] vmem_rdata
@@ -60,16 +60,14 @@ reg [16:0] pal = 0;
 reg [16:0] pix = 0;
 reg state = S_PIX;
 
-initial vmem_valid = 1'b1;
+assign vmem_valid = 1'b1;
 assign vmem_addr = state ? pix + PIX_STA : pal + PAL_STA;
 assign hdmi_tx_pclk = ~state;
 
 always @(posedge clk) begin
-    vmem_valid <= 1'b0;
     case (state)
         S_PAL: if (vmem_ready) begin
             // output last pixel
-            vmem_valid <= 1'b1;
             hdmi_tx_data <= vmem_rdata[23:0];
             hdmi_tx_de <= de;
             hdmi_tx_vs <= vsync;
@@ -84,7 +82,6 @@ always @(posedge clk) begin
             state <= S_PIX;
         end
         S_PIX: if (vmem_ready) begin
-            vmem_valid <= 1'b1;
             pal <= vmem_rdata[7:0] * 4;
             state <= S_PAL;
         end

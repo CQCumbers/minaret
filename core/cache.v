@@ -66,7 +66,9 @@ always @(posedge clk) begin
         S_IDLE: begin
             ready <= 1'b0;
             cram_wen <= 1'b0;
-            state <= valid ? S_FIND : S_IDLE;
+            if (valid & !ready) begin
+                state <= S_FIND;
+            end
         end
         S_FIND: begin
             state <= dirty[idx] ? S_FLUSH : S_ALLOC;
@@ -81,7 +83,7 @@ always @(posedge clk) begin
             mem_wdata <= cdata;
             if (mem_valid & mem_ready) begin
                 mem_valid  <= 1'b0;
-					 dirty[idx] <= 1'b0;
+                dirty[idx] <= 1'b0;
                 state <= S_ALLOC;
             end
         end
@@ -92,14 +94,14 @@ always @(posedge clk) begin
             if (mem_valid & mem_ready) begin
                 mem_valid <= 1'b0;
                 cram_wen <= 1'b1;
-                cram_wmask <= {17{1'b1}};
+                cram_wmask <= {18{1'b1}};
                 cram_wdata <= {tag, mem_rdata};
                 state <= wmask ? S_WRITE : S_READ;
             end
         end
         S_READ: begin
             ready <= 1'b1;
-            rdata <= cdata >> off;
+            rdata <= (cram_wen ? cram_wdata : cdata) >> off;
             state <= S_IDLE;
         end
         S_WRITE: begin

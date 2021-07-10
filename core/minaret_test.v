@@ -90,7 +90,7 @@ display display (
 
 // UART peripheral
 
-wire uart_sel   = dmem_addr[31:8] == 24'hffffff;
+wire uart_sel   = dmem_addr[31:4] == 28'hffffff0;
 wire uart_addr  = dmem_addr[2];
 wire uart_valid = uart_sel && dmem_valid;
 wire uart_wmask = dmem_wmask != 0;
@@ -109,12 +109,28 @@ uart uart (
     .rdata (uart_rdata )
 );
 
+// Timer peripheral
+
+wire time_sel = dmem_addr[31:4] == 28'hffffff1;
+wire time_ready = 1'b1;
+
+reg [24:0] time_cnt = 0;
+reg [31:0] time_rdata = 0;
+
+always @(posedge clk) begin
+    time_cnt <= time_cnt[23:0] + 336;
+    time_rdata <= time_rdata + time_cnt[24];
+end
+
 // BRAM peripheral
 
 wire bram_isel = imem_addr[31:17] == 15'h4000;
 wire bram_dsel = dmem_addr[31:17] == 15'h4000;
 wire bram_wen = bram_dsel && dmem_valid && dmem_wmask != 0;
 
+
+wire bram_ivalid = bram_isel ? imem_valid : vmem_valid;
+wire bram_dvalid = dmem_valid;
 wire [14:0] bram_iaddr = bram_isel ? imem_addr[16:2] : vmem_addr[16:2];
 wire [14:0] bram_daddr = dmem_addr[16:2];
 
@@ -142,8 +158,8 @@ bram bram (
 );
 
 always @(posedge clk) begin
-    bram_iready <= bram_isel ? imem_valid : vmem_valid;
-    bram_dready <= dmem_valid;
+    bram_iready <= bram_ivalid & !bram_iready;
+    bram_dready <= bram_dvalid & !bram_dready;
 end
 
 // Cached DRAM peripheral
@@ -152,7 +168,7 @@ wire dram_isel = imem_addr[31:26] == 6'h00;
 wire dram_dsel = dmem_addr[31:26] == 6'h00;
 wire cache_mode = dram_dsel && dmem_valid;
 
-wire cache_valid = cache_mode ? 1 : imem_valid;
+wire cache_valid = cache_mode || (dram_isel && imem_valid);
 wire [31:0] cache_addr  = cache_mode ? dmem_addr[25:0] : imem_addr[25:0];
 wire [ 3:0] cache_wmask = cache_mode ? dmem_wmask : 0;
 wire [31:0] cache_wdata = cache_mode ? dmem_wdata : 0;
@@ -244,12 +260,16 @@ assign imem_ready = bram_isel ? bram_iready :
                     dram_isel ? dram_iready : 0;
 assign imem_rdata = bram_isel ? bram_irdata :
                     dram_isel ? dram_irdata : 0;
+
 assign dmem_ready = uart_sel  ? uart_ready  :
+                    time_sel  ? time_ready  :
                     bram_dsel ? bram_dready :
                     dram_dsel ? dram_dready : 0;
 assign dmem_rdata = uart_sel  ? uart_rdata  :
+                    time_sel  ? time_rdata  :
                     bram_dsel ? bram_drdata >> bram_doffs :
                     dram_dsel ? dram_drdata : 0;
+
 assign vmem_ready = bram_isel ? 0 : bram_iready;
 assign vmem_rdata = bram_isel ? 0 : bram_irdata >> bram_ioffs;
 
