@@ -2,6 +2,10 @@
 
 module minaret_test (
     input wire clk,
+    output wire        uart_gnd,
+    output wire        uart_vcc,
+    input  wire        uart_rx,
+    output wire        uart_tx,
 
     output wire [14:0] dfi_addr,
     output wire [ 2:0] dfi_bank,
@@ -91,22 +95,23 @@ display display (
 // UART peripheral
 
 wire uart_sel   = dmem_addr[31:4] == 28'hffffff0;
-wire uart_addr  = dmem_addr[2];
 wire uart_valid = uart_sel && dmem_valid;
 wire uart_wmask = dmem_wmask != 0;
 
 wire uart_ready;
 wire [31:0] uart_rdata;
+assign uart_gnd = 0;
+assign uart_vcc = 1;
 
 uart uart (
-    .clk   (clk        ),
-    .reset (reset      ),
-    .valid (uart_valid ),
-    .ready (uart_ready ),
-    .addr  (uart_addr  ),
-    .wmask (uart_wmask ),
-    .wdata (dmem_wdata ),
-    .rdata (uart_rdata )
+    .clk    (clk        ),
+    .rx_bit (uart_rx    ),
+    .tx_bit (uart_tx    ),
+    .valid  (uart_valid ),
+    .ready  (uart_ready ),
+    .wmask  (uart_wmask ),
+    .wdata  (dmem_wdata ),
+    .rdata  (uart_rdata )
 );
 
 // Timer peripheral
@@ -118,7 +123,7 @@ reg [24:0] time_cnt = 0;
 reg [31:0] time_rdata = 0;
 
 always @(posedge clk) begin
-    time_cnt <= time_cnt[23:0] + 336;
+    time_cnt <= time_cnt[23:0] + 25'd336;
     time_rdata <= time_rdata + time_cnt[24];
 end
 
@@ -127,7 +132,6 @@ end
 wire bram_isel = imem_addr[31:17] == 15'h4000;
 wire bram_dsel = dmem_addr[31:17] == 15'h4000;
 wire bram_wen = bram_dsel && dmem_valid && dmem_wmask != 0;
-
 
 wire bram_ivalid = bram_isel ? imem_valid : vmem_valid;
 wire bram_dvalid = dmem_valid;
@@ -170,12 +174,12 @@ wire cache_mode = dram_dsel && dmem_valid;
 
 wire cache_valid = cache_mode || (dram_isel && imem_valid);
 wire [31:0] cache_addr  = cache_mode ? dmem_addr[25:0] : imem_addr[25:0];
-wire [ 3:0] cache_wmask = cache_mode ? dmem_wmask : 0;
+wire [ 3:0] cache_wmask = cache_mode ? dmem_wmask : 4'd0;
 wire [31:0] cache_wdata = cache_mode ? dmem_wdata : 0;
 
 wire cache_ready;
-wire dram_iready = cache_mode ? 0 : cache_ready;
-wire dram_dready = cache_mode ? cache_ready : 0;
+wire dram_iready = cache_mode ? 1'b0 : cache_ready;
+wire dram_dready = cache_mode ? cache_ready : 1'b0;
 wire [31:0] cache_rdata;
 wire [31:0] dram_irdata = cache_mode ? 0 : cache_rdata;
 wire [31:0] dram_drdata = cache_mode ? cache_rdata : 0;
@@ -257,20 +261,20 @@ assign dfi_stb[1] = dfi_wmask && shift_clk;
 // Memory map
 
 assign imem_ready = bram_isel ? bram_iready :
-                    dram_isel ? dram_iready : 0;
+                    dram_isel ? dram_iready : 1'b0;
 assign imem_rdata = bram_isel ? bram_irdata :
-                    dram_isel ? dram_irdata : 0;
+                    dram_isel ? dram_irdata : 1'b0;
 
 assign dmem_ready = uart_sel  ? uart_ready  :
                     time_sel  ? time_ready  :
                     bram_dsel ? bram_dready :
-                    dram_dsel ? dram_dready : 0;
+                    dram_dsel ? dram_dready : 1'b0;
 assign dmem_rdata = uart_sel  ? uart_rdata  :
                     time_sel  ? time_rdata  :
                     bram_dsel ? bram_drdata >> bram_doffs :
-                    dram_dsel ? dram_drdata : 0;
+                    dram_dsel ? dram_drdata : 1'b0;
 
-assign vmem_ready = bram_isel ? 0 : bram_iready;
-assign vmem_rdata = bram_isel ? 0 : bram_irdata >> bram_ioffs;
+assign vmem_ready = bram_isel ? 1'b0 : bram_iready;
+assign vmem_rdata = bram_isel ? 1'b0 : bram_irdata >> bram_ioffs;
 
 endmodule

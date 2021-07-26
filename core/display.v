@@ -37,7 +37,7 @@ reg [9:0] sx = 0;
 reg [9:0] sy = 0;
 
 always @(posedge clk) begin
-    pix_cnt <= pix_cnt + 1;
+    pix_cnt <= pix_cnt + 8'd1;
     if (pix_cnt == CLKS_PER_PIX - 1) begin
         pix_cnt <= 0;
         sx <= sx + 1;
@@ -55,7 +55,6 @@ localparam S_PAL = 0;
 localparam S_PIX = 1;
 
 reg de, hsync, vsync;
-reg [23:0] color = 0;
 reg [16:0] pal = 0;
 reg [16:0] pix = 0;
 reg state = S_PIX;
@@ -113,7 +112,7 @@ always @* begin
         // power control
         11: {i2c_addr, i2c_data} = 16'h4110;
         12: {i2c_addr, i2c_data} = 16'haf04;
-        default: {i2c_addr, i2c_data} = 27'h9803;
+        default: {i2c_addr, i2c_data} = 16'h9803;
     endcase
 end
 

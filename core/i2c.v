@@ -31,7 +31,7 @@ assign sda =  d_buf[27] ? 1'bz : 1'b0;
 assign ready = state == S_IDLE;
 
 always @(posedge clk) begin
-    d_cnt <= d_cnt + 1;
+    d_cnt <= d_cnt + 16'd1;
     case (state)
         S_IDLE:  // send start signal
         if (valid) begin
