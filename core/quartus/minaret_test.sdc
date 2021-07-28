@@ -56,6 +56,8 @@ derive_clock_uncertainty
 # Set Output Delay
 #**************************************************************
 
+set_output_delay -clock [get_clocks {clk}] -max 1.50 [get_ports {hdmi_tx*}] -add_delay
+set_output_delay -clock [get_clocks {clk}] -min -1.5 [get_ports {hdmi_tx*}] -add_delay
 set_output_delay -clock [get_clocks {output_clk}] -max 1.50 [get_ports {dfi_data*}] -add_delay
 set_output_delay -clock [get_clocks {output_clk}] -min -0.8 [get_ports {dfi_data*}] -add_delay
 set_output_delay -clock [get_clocks {output_clk}] -max 1.50 -clock_fall [get_ports {dfi_data*}] -add_delay

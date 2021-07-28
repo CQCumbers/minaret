@@ -7,6 +7,11 @@ module minaret_test (
     input  wire        uart_rx,
     output wire        uart_tx,
 
+    output wire        keys_gnd,
+    output wire        keys_vcc,
+    input  wire        keys_data,
+    input  wire        keys_clk,
+
     output wire [14:0] dfi_addr,
     output wire [ 2:0] dfi_bank,
     inout  wire [15:0] dfi_data,
@@ -114,9 +119,27 @@ uart uart (
     .rdata  (uart_rdata )
 );
 
+// Keyboard peripheral
+
+wire keys_sel   = dmem_addr[31:4] == 28'hffffff1;
+wire keys_valid = keys_sel && dmem_valid;
+wire keys_ready = 1'b1;
+
+wire [31:0] keys_rdata;
+assign keys_gnd = 0;
+assign keys_vcc = 1;
+
+keyboard keys (
+    .clk      (clk        ),
+    .ps2_data (keys_data  ),
+    .ps2_clk  (keys_clk   ),
+    .valid    (keys_valid ),
+    .rdata    (keys_rdata )
+);
+
 // Timer peripheral
 
-wire time_sel = dmem_addr[31:4] == 28'hffffff1;
+wire time_sel = dmem_addr[31:4] == 28'hffffff2;
 wire time_ready = 1'b1;
 
 reg [24:0] time_cnt = 0;
@@ -266,11 +289,13 @@ assign imem_rdata = bram_isel ? bram_irdata :
                     dram_isel ? dram_irdata : 1'b0;
 
 assign dmem_ready = uart_sel  ? uart_ready  :
+                    keys_sel  ? keys_ready  :
                     time_sel  ? time_ready  :
                     bram_dsel ? bram_dready :
                     dram_dsel ? dram_dready : 1'b0;
 assign dmem_rdata = uart_sel  ? uart_rdata  :
                     time_sel  ? time_rdata  :
+                    keys_sel  ? keys_rdata  :
                     bram_dsel ? bram_drdata >> bram_doffs :
                     dram_dsel ? dram_drdata : 1'b0;
 

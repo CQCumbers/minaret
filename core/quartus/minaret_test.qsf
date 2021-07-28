@@ -27,6 +27,10 @@ set_location_assignment PIN_W18 -to uart_gnd
 set_location_assignment PIN_AA20 -to uart_vcc
 set_location_assignment PIN_AB21 -to uart_rx
 set_location_assignment PIN_AB19 -to uart_tx
+set_location_assignment PIN_V13 -to keys_gnd
+set_location_assignment PIN_V12 -to keys_vcc
+set_location_assignment PIN_U15 -to keys_data
+set_location_assignment PIN_W12 -to keys_clk
 set_location_assignment PIN_E21 -to dfi_addr[0]
 set_location_assignment PIN_V20 -to dfi_addr[1]
 set_location_assignment PIN_V21 -to dfi_addr[2]
@@ -138,6 +142,10 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart_gnd
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart_vcc
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart_rx
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart_tx
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to keys_gnd
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to keys_vcc
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to keys_data
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to keys_clk
 set_instance_assignment -name IO_STANDARD "SSTL-15" -to dfi_addr[0]
 set_instance_assignment -name IO_STANDARD "SSTL-15" -to dfi_addr[1]
 set_instance_assignment -name IO_STANDARD "SSTL-15" -to dfi_addr[2]
@@ -219,6 +227,7 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to hdmi_tx_vs
 set_global_assignment -name VERILOG_FILE ../minaret_test.v
 set_global_assignment -name VERILOG_FILE ../minaret.v
 set_global_assignment -name VERILOG_FILE ../uart.v
+set_global_assignment -name VERILOG_FILE ../keyboard.v
 set_global_assignment -name VERILOG_FILE ../cache.v
 set_global_assignment -name VERILOG_FILE ../dram.v
 set_global_assignment -name VERILOG_FILE ../display.v
@@ -233,6 +242,8 @@ set_global_assignment -name QIP_FILE ../cram.qip
 set_global_assignment -name ENABLE_SIGNALTAP ON
 set_global_assignment -name USE_SIGNALTAP_FILE minaret_test.stp
 set_global_assignment -name SIGNALTAP_FILE minaret_test.stp
+
+
 
 set_global_assignment -name SLD_FILE db/minaret_test_auto_stripped.stp
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
