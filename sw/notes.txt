@@ -1,0 +1,31 @@
+First build llvm cross-compile tools:
+cd /llvm-project/build
+cmake -G Ninja ../llvm -DLLVM_TARGETS_TO_BUILD=MINA32 -DLLVM_ENABLE_PROJECTS="clang;lld;lldb" -DLLDB_INCLUDE_TESTS=OFF
+
+Then you can build mina32-newlib with:
+cd /mina32-newlib
+./mina32-build.sh
+
+Build llvm compiler-rt:
+cd /llvm-project/rt-build
+./mina32-compiler-rt.sh
+
+Then build simulator with:
+cd /mina32-newlib/examples/sim
+make simulator
+
+Create sysroot by copying:
+cd /mina32-newlib/examples/sysroot/usr
+cp /mina32-newlib/build/mina32-elf/include/* ./include
+cp /llvm-project/rt-build/lib/generic/* ./lib
+cp /mina32-newlib/build/mina32-elf/lib/* ./lib
+cp /mina32-newlib/examples/hello/crt0.o ./lib
+
+Now run hello world with:
+cd /mina32-newlib/examples/hello
+make hello
+/mina32-newlib/examples/sim/simulator hello
+
+and in seperate window:
+/llvm-project/build/bin/lldb hello
+gdb-remote 4242

@@ -2,7 +2,9 @@
 /boolector
 /SymbiYosys
 /yosys
-/core/checks
-/core/quartus/
+/rtl/checks/
+/rtl/complete/
+/rtl/cover/
+/rtl/quartus/
 *.bak
 bin2mif
