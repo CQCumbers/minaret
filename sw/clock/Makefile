@@ -11,11 +11,11 @@ LDFLAGS := -Wl,-T$(COMMON)/minaret.ld
 
 .PHONY: clean
 
-coral.hex: coral
+clock.hex: clock
 	$(OBJCOPY) -O ihex $^ $@
 
-coral: coral.c $(COMMON)/minaret.c
+clock: clock.c $(COMMON)/minaret.c
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 clean:
-	rm coral.hex coral
+	rm clock.hex clock

@@ -1,6 +1,6 @@
 TOOLCHAIN := /Users/alexanderzhang/Documents/llvm-project/build/bin
-SYSROOT := /Users/alexanderzhang/Documents/mina32-newlib/examples/sysroot
-COMMON  := /Users/alexanderzhang/Documents/mina32-newlib/examples/common
+SYSROOT := /Users/alexanderzhang/Documents/minaret/sw/sysroot
+COMMON  := /Users/alexanderzhang/Documents/minaret/sw/common
 
 CC := $(TOOLCHAIN)/clang
 OBJCOPY := $(TOOLCHAIN)/llvm-objcopy

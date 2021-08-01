@@ -160,10 +160,10 @@ static void hdmi_update(void) {
     if (e.type == SDL_QUIT) exit(0);
     if (e.type == SDL_KEYDOWN) {
       unsigned i = key_write++ & 15;
-      key_queue[i] = key_code(e) | 0x100;
+      key_queue[i] = key_code(e);
     } else if (e.type == SDL_KEYUP) {
       unsigned i = key_write++ & 15;
-      key_queue[i] = key_code(e);
+      key_queue[i] = key_code(e) | 0x100;
     }
   }
 }

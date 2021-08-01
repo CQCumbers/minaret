@@ -6,5 +6,6 @@
 /rtl/complete/
 /rtl/cover/
 /rtl/quartus/
+/sw/sysroot/
 *.bak
 bin2mif
