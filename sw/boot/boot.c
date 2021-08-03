@@ -64,7 +64,8 @@ int main(void) {
   // print help message
   mina_uart_puts("MINA32 UART Bootloader v0.1");
   mina_uart_puts("Paste intel hex file below:");
-  uint32_t segment = 0, start = 0;
+  uint32_t segment = 0, linear = 0;
+  uint32_t start = 0;
 
   while (1) {
     // read ihex record
@@ -85,7 +86,7 @@ int main(void) {
 
     if (record_type == 0x00) {
       // verify address
-      address = segment + address;
+      address = linear + segment + address;
       if (address + count >= MAX_ADDRESS)
         fail(line, "Record address out of bounds");
 
@@ -104,6 +105,14 @@ int main(void) {
       segment = hex2int(line + 9, 4) << 4;
     } else if (record_type == 0x03) {
       // handle start segment address
+      if (count != 4) fail(line, "Invalid count");
+      start = hex2int(line + 13, 4);
+    } else if (record_type == 0x04) {
+      // handle extended linear address
+      if (count != 2) fail(line, "Invalid count");
+      linear = hex2int(line + 9, 4) << 16;
+    } else if (record_type == 0x05) {
+      // handle start linear address
       if (count != 4) fail(line, "Invalid count");
       start = hex2int(line + 9, 8);
     } else {
