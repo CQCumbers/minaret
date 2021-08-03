@@ -5,16 +5,20 @@
 // opcodes
 `define OP_ADDI   8'b00000000
 `define OP_MULTI  8'b00000001
+`define OP_DIVI   8'b00000010
+`define OP_REMI   8'b00000011
 `define OP_SLTI   8'b00000100
 `define OP_SLTIU  8'b00000101
 `define OP_NOP    8'b00000110
 `define OP_PCADDI 8'b00000111
 `define OP_ADD    8'b00001000
 `define OP_MULT   8'b00001001
+`define OP_DIV    8'b00001010
+`define OP_REM    8'b00001011
 `define OP_SLT    8'b00001100
 `define OP_SLTU   8'b00001101
 `define OP_SUB    8'b00001110
-// no DIV/REM/PCADD
+// no PCADD
 
 `define OP_ANDI   8'b00010000
 `define OP_ORI    8'b00010001
@@ -24,7 +28,9 @@
 `define OP_OR     8'b00011001
 `define OP_XOR    8'b00011010
 `define OP_NAND   8'b00011011
-// no POPCNT/CLO/PLO
+`define OP_POPCNT 8'b00011100
+`define OP_CLO    8'b00011101
+`define OP_PLO    8'b00011110
 
 `define OP_CMPIEQ 8'b00100000
 `define OP_CMPILO 8'b00100001
@@ -88,10 +94,11 @@
 // writeback types
 `define W_MOVL 3'b000
 `define W_MOVU 3'b001
-`define W_DEST 3'b010
-`define W_TBIT 3'b011
-`define W_PC   3'b100
-`define W_NONE 3'b101
+`define W_REMI 3'b010
+`define W_DEST 3'b011
+`define W_TBIT 3'b100
+`define W_PC   3'b101
+`define W_NONE 3'b110
 
 // A_src
 `define A_SRC1 2'b00
@@ -106,22 +113,26 @@
 `define B_NONE 2'b11
 
 // alu_op
-`define ALU_ADD  4'b0000
-`define ALU_SUB  4'b0001
-`define ALU_MULT 4'b0010
-`define ALU_AND  4'b0011
-`define ALU_OR   4'b0100
-`define ALU_XOR  4'b0101
-`define ALU_NAND 4'b0110
-`define ALU_EQ   4'b0111
-`define ALU_LO   4'b1000
-`define ALU_LS   4'b1001
-`define ALU_LT   4'b1010
-`define ALU_LE   4'b1011
-`define ALU_LSL  4'b1100
-`define ALU_LSR  4'b1101
-`define ALU_ASR  4'b1110
-`define ALU_ROR  4'b1111
+`define ALU_ADD  5'b00000
+`define ALU_SUB  5'b00001
+`define ALU_MULT 5'b00010
+`define ALU_DIV  5'b00011
+`define ALU_AND  5'b00100
+`define ALU_OR   5'b00101
+`define ALU_XOR  5'b00110
+`define ALU_NAND 5'b00111
+`define ALU_CNT  5'b01000
+`define ALU_CLO  5'b01001
+`define ALU_PLO  5'b01010
+`define ALU_EQ   5'b01011
+`define ALU_LO   5'b01100
+`define ALU_LS   5'b01101
+`define ALU_LT   5'b01110
+`define ALU_LE   5'b01111
+`define ALU_LSL  5'b10000
+`define ALU_LSR  5'b10001
+`define ALU_ASR  5'b10010
+`define ALU_ROR  5'b10011
 
 // conditions
 `define ANY  2'b00
@@ -138,11 +149,12 @@
 `define S_DECODE  4'b0001
 `define S_EXECUTE 4'b0010
 `define S_SHIFT   4'b0011
-`define S_CALL    4'b0100
-`define S_RET     4'b0101
-`define S_STORE   4'b0110
-`define S_LOAD    4'b0111
-`define S_WRITE   4'b1000
+`define S_DIVIDE  4'b0100
+`define S_CALL    4'b0101
+`define S_RET     4'b0110
+`define S_STORE   4'b0111
+`define S_LOAD    4'b1000
+`define S_WRITE   4'b1001
 
 `define CTRL( a, b, op, tp, c, wb, ty, wd )                   \
 { A_src, B_src, alu_op, legal, cond, wb_ty, state_ty, width } \
@@ -206,7 +218,7 @@ wire [ 3:0] dest_addr = inst[15:12];
 // control unit
 reg [1:0] A_src;
 reg [1:0] B_src;
-reg [3:0] alu_op;
+reg [4:0] alu_op;
 reg [1:0] cond;
 reg [2:0] wb_ty;
 reg [3:0] state_ty;
@@ -218,12 +230,16 @@ always @* begin
     case (opcode) //      A_src    B_src    alu_op     legal cond  wb_ty    state_ty  width
         `OP_ADDI:   `CTRL(`A_SRC1, `B_IMMS, `ALU_ADD,  `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_MULTI:  `CTRL(`A_SRC1, `B_IMMS, `ALU_MULT, `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
+        `OP_DIVI:   `CTRL(`A_SRC1, `B_IMMS, `ALU_DIV,  `YES, `ANY, `W_DEST, `S_DIVIDE,`BYTE)
+        `OP_REMI:   `CTRL(`A_SRC1, `B_IMMS, `ALU_DIV,  `YES, `ANY, `W_REMI, `S_DIVIDE,`BYTE)
         `OP_SLTI:   `CTRL(`A_SRC1, `B_IMMS, `ALU_LT,   `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_SLTIU:  `CTRL(`A_SRC1, `B_IMMS, `ALU_LO,   `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_NOP:    `CTRL(`A_NONE, `B_NONE, `ALU_ADD,  `YES, `ANY, `W_NONE, `S_WRITE, `BYTE)
         `OP_PCADDI: `CTRL(`A_PC,   `B_IMMS, `ALU_ADD,  `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_ADD:    `CTRL(`A_SRC1, `B_SRC2, `ALU_ADD,  `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_MULT:   `CTRL(`A_SRC1, `B_SRC2, `ALU_MULT, `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
+        `OP_DIV:    `CTRL(`A_SRC1, `B_SRC2, `ALU_DIV,  `YES, `ANY, `W_DEST, `S_DIVIDE,`BYTE)
+        `OP_REM:    `CTRL(`A_SRC1, `B_SRC2, `ALU_DIV,  `YES, `ANY, `W_REMI, `S_DIVIDE,`BYTE)
         `OP_SLT:    `CTRL(`A_SRC1, `B_SRC2, `ALU_LT,   `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_SLTU:   `CTRL(`A_SRC1, `B_SRC2, `ALU_LO,   `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_SUB:    `CTRL(`A_SRC1, `B_SRC2, `ALU_SUB,  `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
@@ -236,6 +252,9 @@ always @* begin
         `OP_OR:     `CTRL(`A_SRC1, `B_SRC2, `ALU_OR,   `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_XOR:    `CTRL(`A_SRC1, `B_SRC2, `ALU_XOR,  `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
         `OP_NAND:   `CTRL(`A_SRC1, `B_SRC2, `ALU_NAND, `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
+        `OP_POPCNT: `CTRL(`A_SRC1, `B_NONE, `ALU_CNT,  `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
+        `OP_CLO:    `CTRL(`A_SRC1, `B_NONE, `ALU_CLO,  `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
+        `OP_PLO:    `CTRL(`A_SRC1, `B_NONE, `ALU_PLO,  `YES, `ANY, `W_DEST, `S_WRITE, `BYTE)
 
         `OP_CMPIEQ: `CTRL(`A_SRC1, `B_IMMS, `ALU_EQ,   `YES, `ANY, `W_TBIT, `S_WRITE, `BYTE)
         `OP_CMPILO: `CTRL(`A_SRC1, `B_IMMS, `ALU_LO,   `YES, `ANY, `W_TBIT, `S_WRITE, `BYTE)
@@ -308,6 +327,9 @@ reg [31:0] src1, src2, src3;
 
 // ALU operations
 reg  [31:0] alu_out;
+reg  [32:0] alu_acc;
+reg  [ 5:0] alu_idx;
+
 wire [31:0] imm = {{20{inst[11]}}, inst[11:0]};
 wire [31:0] off = {{ 8{inst[23]}}, inst[23:0]};
 wire [15:0] mov = {inst[19:16], inst[11:0]};
@@ -323,8 +345,23 @@ wire [31:0] B =
     B_src == `B_IMMB ? off << 2 : 0;
 wire [ 3:0] src3_addr =
     state_ty == `S_STORE ? dest_addr :
-	 state_ty == `S_WRITE ? dest_addr :
+    state_ty == `S_WRITE ? dest_addr :
     state_ty == `S_SHIFT ? inst[11:8] : 15;
+
+// special bit operations
+reg [5:0] cnt;
+reg [5:0] clo;
+reg [5:0] plo;
+integer i;
+
+always @* begin
+    {cnt, clo, plo} = 18'h00001f;
+    for (i = 0; i < 32; i = i + 1) begin
+        cnt = cnt + A[31 - i];
+        clo = clo + (cnt == i + 1);
+        plo = plo - (cnt == 0);
+    end
+end
 
 // state machine
 reg [3:0] state;
@@ -354,15 +391,20 @@ always @(posedge clk) begin
             trap <= !legal;
         end
         `S_EXECUTE: begin
+            {alu_acc, alu_idx} = 0;
             src3 <= regs[src3_addr];
             case (alu_op)
                 `ALU_ADD:  alu_out <= A + B;
                 `ALU_SUB:  alu_out <= A - B;
                 `ALU_MULT: alu_out <= A * B;
+                `ALU_DIV:  alu_out <= A;
                 `ALU_AND:  alu_out <= A & B;
                 `ALU_OR:   alu_out <= A | B;
                 `ALU_XOR:  alu_out <= A ^ B;
                 `ALU_NAND: alu_out <= ~(A & B);
+                `ALU_CNT:  alu_out <= cnt;
+                `ALU_CLO:  alu_out <= clo;
+                `ALU_PLO:  alu_out <= plo;
                 `ALU_EQ:   alu_out <= A == B;
                 `ALU_LO:   alu_out <= A < B;
                 `ALU_LS:   alu_out <= A <= B;
@@ -373,11 +415,12 @@ always @(posedge clk) begin
                 `ALU_ASR:  alu_out <= $signed(A) >>> B[4:0];
                 `ALU_ROR:  alu_out <= {A, A} >> B[4:0];
             endcase
+            state <= state_ty;
             if (cond[1] && cond[0] != mcr[18]) begin
                 imem_valid <= `YES;
                 pc <= next_pc;
                 state <= `S_FETCH;
-            end else state <= state_ty;
+            end
         end
         `S_SHIFT: begin
             case (alu_op)
@@ -385,6 +428,16 @@ always @(posedge clk) begin
                 `ALU_LSR: alu_out <= ({src1, src2} >> src3[4:0]) >>  0;
             endcase
             state <= `S_WRITE;
+        end
+        `S_DIVIDE: begin
+            if (alu_idx[5]) state <= `S_WRITE;
+            alu_acc <= {alu_acc, alu_out[31]};
+            alu_out <= {alu_out[30:0], 1'b0};
+            alu_idx <= alu_idx + 1;
+            if (alu_acc >= B) begin
+                alu_acc <= {alu_acc - B, alu_out[31]};
+                alu_out <= {alu_out[30:0], 1'b1};
+            end
         end
         `S_CALL: begin
             regs[15] <= src3 - 4;
@@ -445,6 +498,7 @@ always @(posedge clk) begin
             case (wb_ty)
                 `W_MOVL: regs[dest_addr] <= {src3[31:16], mov};
                 `W_MOVU: regs[dest_addr] <= mov << 16;
+                `W_REMI: regs[dest_addr] <= alu_acc[32:1];
                 `W_DEST: regs[dest_addr] <= alu_out;
                 `W_TBIT: mcr[18] <= alu_out[0];
                 `W_PC: {pc, trap} <= {alu_out, alu_out[1:0] != 0};
