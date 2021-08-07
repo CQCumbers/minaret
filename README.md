@@ -11,7 +11,6 @@ The CPU is a multi-cycle implementation that prioritizes readability at the expe
 
 ## Todo List
 - Cleanup RTL files
-- Measure resource usage and performance
 - Distribute prebuilt toolchain
 
 ## Build
@@ -44,6 +43,20 @@ The keyboard interface allows programs to read keyboard data from over a PS/2 co
 
 ### Timer
 The timer interface exposes a simple 32-bit counter that can be used to keep track of elapsed time. Reads return the number of milliseconds since boot.
+
+## Performance
+Implementation results are provided using Intel Quartus Prime Lite 16.1. On the Arrow DECA at 50 MHz, Minaret achieves a Coremark score of 14, when compiled with mina32-llvm at optimization `-Os`. See `sw/coremark` for benchmark details. Keep in mind this is a demo system for the MINA ISA, and is not optimized for practical use.
+
+| Compilation Node    | Combinational ALUTs |  Logic Registers | Memory Bits |
+|---------------------|---------------------|------------------|-------------|
+| minaret_test        | 5284                | 1859             | 771728      |
+| bram:bram           | 116                 | 4                | 622592      |
+| cache_control:cache | 906                 | 355              | 147456      |
+| display:display     | 217                 | 138              | 0           |
+| dram_control:dram   | 250                 | 186              | 0           |
+| keyboard:keys       | 171                 | 75               | 144         |
+| minaret:cpu         | 3209                | 891              | 512         |
+| uart:uart           | 120                 | 101              | 1024        |
 
 ## Resources
 - [riscv-formal](https://github.com/SymbioticEDA/riscv-formal) is great for finding CPU bugs without digging through massive simulator traces.

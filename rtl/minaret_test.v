@@ -191,12 +191,12 @@ end
 
 // Cached DRAM peripheral
 
-wire dram_isel = imem_addr[31:26] == 6'h00;
-wire dram_dsel = dmem_addr[31:26] == 6'h00;
+wire dram_isel = imem_addr[31:29] == 3'h0;
+wire dram_dsel = dmem_addr[31:29] == 3'h0;
 wire cache_mode = dram_dsel && dmem_valid;
 
 wire cache_valid = cache_mode || (dram_isel && imem_valid);
-wire [31:0] cache_addr  = cache_mode ? dmem_addr[25:0] : imem_addr[25:0];
+wire [28:0] cache_addr  = cache_mode ? dmem_addr[28:0] : imem_addr[28:0];
 wire [ 3:0] cache_wmask = cache_mode ? dmem_wmask : 4'd0;
 wire [31:0] cache_wdata = cache_mode ? dmem_wdata : 0;
 
@@ -212,7 +212,7 @@ wire [31:0] dram_drdata = cache_mode ? cache_rdata : 0;
 wire dram_valid;
 wire dram_ready;
 wire dram_wmask;
-wire [ 31:0] dram_addr;
+wire [ 28:0] dram_addr;
 wire [127:0] dram_wdata;
 wire [127:0] dram_rdata;
 

@@ -17,7 +17,7 @@ module dram_control (
 
     input  wire         valid,
     output reg          ready,
-    input  wire [ 31:0] addr,
+    input  wire [ 28:0] addr,
     input  wire         wmask,
     input  wire [127:0] wdata,
     output wire [127:0] rdata
@@ -71,9 +71,9 @@ initial begin
 end
 
 // align address to 128 bits
-wire [ 2:0] addr_bank = addr[28:26];
-wire [14:0] addr_row =  addr[25:11];
-wire [14:0] addr_col =  addr[10: 1] & ~15'h7;
+wire [14:0] addr_row  = addr[28:14];
+wire [ 2:0] addr_bank = addr[13:11];
+wire [14:0] addr_col  = addr[10: 1] & ~15'h7;
 
 // assign output wires
 assign {dfi_csn, dfi_rasn, dfi_casn, dfi_wen} = cmd;

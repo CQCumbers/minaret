@@ -10,8 +10,10 @@ module keyboard (
 
 reg [9:0] d_buf = 0;
 reg [5:0] d_sum = 32;
+reg [5:0] c_sum = 32;
 reg [3:0] state = 0;
 reg old_clk = 1;
+reg new_clk = 1;
 reg data = 1;
 
 reg [8:0] fifo [0:15];
@@ -25,12 +27,17 @@ wire empty = rptr == wptr;
 
 // receiver state machine
 always @(posedge clk) begin
-    old_clk <= ps2_clk;
-    // debounce input
+    old_clk <= new_clk;
+    // debounce data
     if ( ps2_data & d_sum != 63) d_sum <= d_sum + 6'd1;
     if (!ps2_data & d_sum != 0 ) d_sum <= d_sum - 6'd1;
     if (d_sum == 63) data <= 1;
     if (d_sum ==  0) data <= 0;
+    // debounce clock
+    if ( ps2_clk & c_sum != 63) c_sum <= c_sum + 6'd1;
+    if (!ps2_clk & c_sum != 0 ) c_sum <= c_sum - 6'd1;
+    if (c_sum == 63) new_clk <= 1;
+    if (c_sum ==  0) new_clk <= 0;
     // consume buffer on read
     if (valid) begin
         rdata[ 8:0] <= fifo[rptr[3:0]];
@@ -46,7 +53,7 @@ always @(posedge clk) begin
         end
         11: begin
             // translate scancode
-            if (!ps2_clk & old_clk) begin
+            if (!new_clk & old_clk) begin
                 state <= 12;
                 case (d_buf[8:1])
                     8'hF0: keyup <= 1'b1;
@@ -125,7 +132,7 @@ always @(posedge clk) begin
         end
         default: begin
             // sample on falling edge
-            if (!ps2_clk & old_clk) begin
+            if (!new_clk & old_clk) begin
                 d_buf <= {data, d_buf[9:1]};
                 state <= state + 4'd1;
             end
