@@ -5,9 +5,13 @@ Minaret is an experimental softcore CPU and lightweight system-on-chip based on 
 
 The CPU is a multi-cycle implementation that prioritizes readability at the expense of size and speed. Most user mode instructions are supported, while supervisor behaviors like interrupts, syscalls, and fault handling are not. Instruction fetching and data access use seperate 32-bit busses, both with a simple valid/ready interface similar to that of [PicoRV32](https://github.com/cliffordwolf/picorv32#picorv32-native-memory-interface). The core itself is written in platform-independent Verilog and tested using a partial port of [riscv-formal](https://github.com/SymbioticEDA/riscv-formal). The rest of the system-on-chip is designed around the [Arrow DECA](https://tomverbeure.github.io/2021/04/23/Arrow-DECA-FPGA-board.html), a MAX10 development board with builtin DDR3 memory and an HDMI port. Accordingly, the SoC is designed to include a DDR3 controller and direct-mapped cache, as well as a display controller, keyboard controller, timer, and UART interface. These peripherals make use of Quartus and MAX10-specific code, and have only been tested on the DECA. The linker script and bootloader, as well as support functions for the peripherals, are included along with example programs exercising them. An instruction-level simulator with extensive debugger support can help with writing your own software.
 
+## Screenshots
+![screenshots](screenshots.png)
+*From left to right: Doom, Coral, and Writer demo screenshots. Coral art by Mark Ferrari.*
+
 ## Todo List
-- Write example programs for peripherals
-- Reorganize software files
+- Cleanup RTL files
+- Measure resource usage and performance
 - Distribute prebuilt toolchain
 
 ## Build
@@ -20,11 +24,11 @@ This section summarizes the top level SoC architecture implemented in `rtl/minar
 
 | Region   | Base Address | Size        | Attributes |
 |----------|--------------|-------------|------------|
-| DRAM     | `0x00000000` | 64 MiB      | r/w/x      |
-| BRAM     | `0x80000000` | 77824 bytes | r/w/x      |
-| UART     | `0xffffff00` | 16 bytes    | r/w        |
-| Keyboard | `0xffffff10` | 16 bytes    | r          |
-| Timer    | `0xffffff20` | 16 bytes    | r          |
+| DRAM     | `0x00000000` | 512 MiB     | `r/w/x`    |
+| BRAM     | `0x80000000` | 77824 bytes | `r/w/x`    |
+| UART     | `0xffffff00` | 16 bytes    | `r/w`      |
+| Keyboard | `0xffffff10` | 16 bytes    | `r`        |
+| Timer    | `0xffffff20` | 16 bytes    | `r`        |
 
 ### DRAM
 This region is used for all user program code and data, and is backed by the DDR3 chip built into the Arrow DECA. All access is mediated by a 128 KiB direct-mapped unified cache, consisting of 1024 128-byte cache lines. The cache reduces instruction fetch and data access latency to ~3 cycles when hit, and simplifies the DDR3 controller by only requiring 128-byte memory access. The DDR3 controller is not pipelined, and has ~15 cycles of access latency with spikes when a refresh is needed. See `rtl/cache.v` and `rtl/dram.v` for details.
@@ -36,7 +40,7 @@ This region doubles as both video memory and bootrom, and is backed by memory bl
 The UART interface allows Minaret to communicate with other devices via a 115200 baud 8-N-1 serial transmitter and receiver. All addresses in the UART region are handled the same way. On reads, if a character is available in the receive FIFO, bit 15 is set and the character is returned in bits [7:0]. If no character is available, bit 15 is not set, and bits [7:0] are undefined. On writes, bits [7:0] are immediately transmitted, and the memory interface stalls until the transmission is complete. User code is sent to the bootloader via this interface. See `rtl/uart.v` for details. Physically, this interface makes use of pins 0/4/6/8 on the P8 header as GND/VCC/TX/RX.
 
 ### Keyboard
-The keyboard interface allows programs to read keyboard data from over a PS/2 connection. On reads, if an event is available in the FIFO, bit 15 is set and the keycode is returned in bits [8:0]. If no event is available, bit 16 is not set, and bits [8:0] are undefined. Bit 8 of the keycode indicates the type of event - it is unset if the key was pressed, and set if the key was released. The rest of the keycode corresponds to a lowercase ascii characters for most keys, with some exceptions. Space is encoded as `0xA2`, Control as `0xA3`, Shift as `0xB7`, and the left, up, right, and down arrow keys as `0xAC`, `0xAD`, `0xAE`, and `0xAF` respectively. For a complete list see `rtl/keyboard.v`. Physically, this interface makes use of pins 42/38/36/34 on the P8 header as DATA/GND/VCC/CLK.
+The keyboard interface allows programs to read keyboard data from over a PS/2 connection. On reads, if an event is available in the FIFO, bit 15 is set and the keycode is returned in bits [8:0]. If no event is available, bit 15 is not set, and bits [8:0] are undefined. Bit 8 of the keycode indicates the type of event - it is unset if the key was pressed, and set if the key was released. The rest of the keycode corresponds to a lowercase ascii characters for most keys, with some exceptions. Space is encoded as `0xA2`, Control as `0xA3`, Shift as `0xB7`, and the left, up, right, and down arrow keys as `0xAC`, `0xAD`, `0xAE`, and `0xAF` respectively. For a complete list see `rtl/keyboard.v`. Physically, this interface makes use of pins 42/38/36/34 on the P8 header as DATA/GND/VCC/CLK.
 
 ### Timer
 The timer interface exposes a simple 32-bit counter that can be used to keep track of elapsed time. Reads return the number of milliseconds since boot.

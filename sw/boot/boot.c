@@ -38,7 +38,7 @@ void _exit(int status) {
 
 // bootloader functions
 
-#define MAX_ADDRESS 0x04000000
+#define MAX_ADDRESS 0x20000000
 #define LINE_LENGTH 256
 
 static unsigned hex2int(const char *s, int n) {
